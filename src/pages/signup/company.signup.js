@@ -22,13 +22,14 @@ function CompanySignup() {
 
    const handleSubmit = (e) => {
       e.preventDefault();
+
       setIsLoading(true);
       axios
          .post('/api/users/signup', {
             name: nameRef?.current?.value,
             email: emailRef?.current?.value,
             password: passwordRef?.current?.value,
-            role: 'user',
+            role: 'company',
          })
          .then((res) => {
             console.log(res);

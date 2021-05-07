@@ -1,10 +1,11 @@
 import React from 'react';
+import CompanyLayouts from '../../layouts/company.profile';
 
 function CompanyProfile() {
    return (
-      <div>
-         <h1>Company Dashboard</h1>
-      </div>
+      <CompanyLayouts>
+         <h1>Company Profile</h1>
+      </CompanyLayouts>
    );
 }
 

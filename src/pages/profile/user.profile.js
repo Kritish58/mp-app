@@ -1,10 +1,11 @@
 import React from 'react';
+import UserLayouts from '../../layouts/user.profile';
 
 function UserProfile() {
    return (
-      <div>
-         <h2>User Dashboard</h2>
-      </div>
+      <UserLayouts>
+         <h2>User Profile</h2>
+      </UserLayouts>
    );
 }
 

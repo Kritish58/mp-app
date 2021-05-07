@@ -22,6 +22,7 @@ function UserSignup() {
 
    const handleSubmit = (e) => {
       e.preventDefault();
+
       setIsLoading(true);
       axios
          .post('/api/users/signup', {
