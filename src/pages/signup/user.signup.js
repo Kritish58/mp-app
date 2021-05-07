@@ -4,6 +4,7 @@ import { Button, Form } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import styled from 'styled-components';
+import { storeToken } from '../../auth/auth.states';
 import AuthLayouts from '../../layouts/auth';
 
 const FormContainer = styled.div`
@@ -30,7 +31,7 @@ function UserSignup() {
          })
          .then((res) => {
             // console.log(res);
-            toast.success('account registered successfully');
+            storeToken(res?.data?.token);
          })
          .catch((err) => {
             // console.log(err);

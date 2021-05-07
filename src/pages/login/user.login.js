@@ -4,6 +4,7 @@ import { Button, Form } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import styled from 'styled-components';
+import { storeRole, storeToken } from '../../auth/auth.states';
 import AuthLayouts from '../../layouts/auth';
 
 const FormContainer = styled.div`
@@ -27,7 +28,9 @@ function UserLogin() {
       axios
          .post('/api/users/login', { email, password })
          .then((res) => {
-            console.log(res);
+            // console.log(res);
+            storeToken(res?.data?.token);
+            storeRole('user');
          })
          .catch((err) => {
             // console.log(err);

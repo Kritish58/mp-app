@@ -1,7 +1,10 @@
-import React from 'react';
+import axios from 'axios';
+import React, { useState, useRef } from 'react';
 import { Button, Form } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import styled from 'styled-components';
+import { storeRole, storeToken } from '../../auth/auth.states';
 import AuthLayouts from '../../layouts/auth';
 
 const FormContainer = styled.div`
@@ -10,28 +13,60 @@ const FormContainer = styled.div`
 `;
 
 function CompanyLogin() {
+   const [isLoading, setIsLoading] = useState(false);
+
+   const emailRef = useRef();
+   const passwordRef = useRef();
+
+   const handleSubmit = (e) => {
+      e.preventDefault();
+
+      const email = emailRef.current.value;
+      const password = passwordRef.current.value;
+
+      setIsLoading(true);
+      axios
+         .post('/api/users/login', { email, password })
+         .then((res) => {
+            // console.log(res);
+            storeToken(res?.data?.token);
+            storeRole('company');
+         })
+         .catch((err) => {
+            // console.log(err);
+            // console.log(err.response);
+
+            toast.error(err?.response?.data?.email);
+            toast.error(err?.response?.data?.password);
+         })
+         .finally(() => {
+            setIsLoading(false);
+         });
+   };
+
    return (
       <AuthLayouts>
          <FormContainer>
-            <h4 className="text-center">Recruiter Login</h4>
-            <Form>
+            <h4 className="text-center">Recruiter login</h4>
+            <Form onSubmit={(e) => handleSubmit(e)}>
                <Form.Group>
                   <Form.Text>Email</Form.Text>
-                  <Form.Control type="email" placeholder="your email"></Form.Control>
+                  <Form.Control ref={emailRef} type="email" placeholder="your email"></Form.Control>
                </Form.Group>
                <Form.Group>
                   <Form.Text>Password</Form.Text>
-                  <Form.Control type="password" placeholder="your password"></Form.Control>
+                  <Form.Control ref={passwordRef} type="password" placeholder="your password"></Form.Control>
                </Form.Group>
                <Form.Group>
-                  <Button variant="primary" block>
-                     Login as recruiter
+                  <Button type="submit" variant="primary" block disabled={isLoading}>
+                     {!isLoading && <span>Login as recruiter</span>}
+                     {!!isLoading && <span>logging in...</span>}
                   </Button>
                </Form.Group>
                <Form.Group className="d-flex flex-column align-items-center">
                   <Link to="/">Forgot password</Link>
                   <Link to="/signup/company">Create recruiter account</Link>
-                  <Link to="/login">Login as job seeker</Link>
+                  <Link to="/login">Login as recruiter</Link>
                </Form.Group>
             </Form>
          </FormContainer>
