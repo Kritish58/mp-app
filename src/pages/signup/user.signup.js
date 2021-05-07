@@ -6,7 +6,7 @@ import AuthLayouts from '../../layouts/auth';
 
 const FormContainer = styled.div`
    width: 40%;
-   margin: 40px auto;
+   margin: 20px auto;
 `;
 
 function UserSignup() {

@@ -12,7 +12,6 @@ import SingleJobPage from './pages/singleJobPage';
 
 function App() {
    const location = useLocation();
-   console.log(location);
 
    return (
       <>

@@ -15,7 +15,12 @@ function AuthLayots(props) {
             animate={{ opacity: 1, marginLeft: 0 }}
             exit={{ opacity: 0, marginLeft: '-100px' }}
             transition={{ duration: 0.2 }}>
-            <>{props.children}</>
+            <>
+               <div className="text-center pt-4">
+                  <img src="/logo.png" alt="logo" height="100" />
+               </div>
+               {props.children}
+            </>
          </motion.div>
       </AuthContainer>
    );
