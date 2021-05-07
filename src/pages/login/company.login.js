@@ -29,7 +29,7 @@ function CompanyLogin() {
                   </Button>
                </Form.Group>
                <Form.Group className="d-flex flex-column align-items-center">
-                  <Link>Forgot password</Link>
+                  <Link to="/">Forgot password</Link>
                   <Link to="/signup/company">Create recruiter account</Link>
                   <Link to="/login">Login as job seeker</Link>
                </Form.Group>

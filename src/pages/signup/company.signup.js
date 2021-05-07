@@ -16,12 +16,16 @@ function CompanySignup() {
             <h4 className="text-center">Recruiter Signup</h4>
             <Form>
                <Form.Group>
+                  <Form.Text>Company Name</Form.Text>
+                  <Form.Control type="text" placeholder="type your company name"></Form.Control>
+               </Form.Group>
+               <Form.Group>
                   <Form.Text>Email</Form.Text>
-                  <Form.Control type="email" placeholder="your email"></Form.Control>
+                  <Form.Control type="email" placeholder="ttype your email"></Form.Control>
                </Form.Group>
                <Form.Group>
                   <Form.Text>Password</Form.Text>
-                  <Form.Control type="password" placeholder="your password"></Form.Control>
+                  <Form.Control type="password" placeholder="type your password"></Form.Control>
                </Form.Group>
                <Form.Group>
                   <Button variant="success" block>
@@ -29,7 +33,7 @@ function CompanySignup() {
                   </Button>
                </Form.Group>
                <Form.Group className="d-flex flex-column align-items-center">
-                  <Link to="/signup/company">Login as recruiter</Link>
+                  <Link to="/login/company">Login as recruiter</Link>
                   <Link to="/login">Login as job seeker</Link>
                </Form.Group>
             </Form>

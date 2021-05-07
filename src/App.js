@@ -1,5 +1,9 @@
+import React, { useEffect } from 'react';
 import { AnimatePresence } from 'framer-motion';
 import { Switch, Route, useLocation } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+// keeping app.css below to override toast css
 import './App.css';
 import HomePage from './pages';
 import CompanyDashboard from './pages/dashboard/company.dashboard';
@@ -9,13 +13,36 @@ import UserLogin from './pages/login/user.login';
 import CompanySignup from './pages/signup/company.signup';
 import UserSignup from './pages/signup/user.signup';
 import SingleJobPage from './pages/singleJobPage';
+import setBaseUrl from './axios/set.base.url';
+import { observer } from 'mobx-react';
+import authStates from './auth/auth.states';
 
-function App() {
+const App = observer(() => {
    const location = useLocation();
+
+   useEffect(() => {
+      setBaseUrl();
+      // initial setting of token
+      const token = localStorage.getItem('token');
+      authStates.setToken(token);
+
+      return () => {};
+   }, []);
 
    return (
       <>
          <div className="App">
+            <ToastContainer
+               position="top-right"
+               autoClose={5000}
+               hideProgressBar={false}
+               newestOnTop={false}
+               closeOnClick
+               rtl={false}
+               pauseOnFocusLoss
+               draggable
+               pauseOnHover
+            />
             <AnimatePresence exitBeforeEnter initial={false}>
                <Switch location={location} key={location.pathname}>
                   <Route exact path="/">
@@ -53,6 +80,6 @@ function App() {
          </div>
       </>
    );
-}
+});
 
 export default App;

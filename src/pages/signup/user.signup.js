@@ -1,6 +1,8 @@
-import React from 'react';
+import axios from 'axios';
+import React, { useState, useRef } from 'react';
 import { Button, Form } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import styled from 'styled-components';
 import AuthLayouts from '../../layouts/auth';
 
@@ -10,22 +12,59 @@ const FormContainer = styled.div`
 `;
 
 function UserSignup() {
+   const [isLoading, setIsLoading] = useState(false);
+
+   const nameRef = useRef();
+   const emailRef = useRef();
+   const passwordRef = useRef();
+
+   const handleSubmit = (e) => {
+      e.preventDefault();
+      setIsLoading(true);
+      axios
+         .post('/api/users/signup', {
+            name: nameRef.current.value,
+            email: emailRef.current.value,
+            password: passwordRef.current.value,
+            role: 'user',
+         })
+         .then((res) => {
+            // console.log(res);
+            toast.success('account registered successfully');
+         })
+         .catch((err) => {
+            // console.log(err);
+            // console.log(err.response);
+            toast.error(err?.response?.data?.name);
+            toast.error(err?.response?.data?.email);
+            toast.error(err?.response?.data?.password);
+         })
+         .finally(() => {
+            setIsLoading(false);
+         });
+   };
+
    return (
       <AuthLayouts>
          <FormContainer>
             <h4 className="text-center">Job seeker signup</h4>
-            <Form>
+            <Form onSubmit={handleSubmit}>
+               <Form.Group>
+                  <Form.Text>Full Name</Form.Text>
+                  <Form.Control ref={nameRef} type="text" placeholder="type your full name"></Form.Control>
+               </Form.Group>
                <Form.Group>
                   <Form.Text>Email</Form.Text>
-                  <Form.Control type="email" placeholder="your email"></Form.Control>
+                  <Form.Control ref={emailRef} type="email" placeholder="your email"></Form.Control>
                </Form.Group>
                <Form.Group>
                   <Form.Text>Password</Form.Text>
-                  <Form.Control type="password" placeholder="your password"></Form.Control>
+                  <Form.Control ref={passwordRef} type="password" placeholder="your password"></Form.Control>
                </Form.Group>
                <Form.Group>
-                  <Button variant="success" block>
-                     Signup as job seeker
+                  <Button type="submit" variant="success" block disabled={isLoading}>
+                     {!isLoading && <span>Signup as job seeker</span>}
+                     {!!isLoading && <span>signing in...</span>}
                   </Button>
                </Form.Group>
                <Form.Group className="d-flex flex-column align-items-center">
