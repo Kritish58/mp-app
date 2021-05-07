@@ -47,7 +47,9 @@ function CreateJobModal(props) {
                         <option>expert</option>
                      </Form.Control>
                      <Form.Text>
-                        <em>Press Ctrl for multiple selection</em>
+                        <em>
+                           Press <b>Ctrl</b> for multiple selection
+                        </em>
                      </Form.Text>
                   </Form.Group>
 
@@ -60,7 +62,9 @@ function CreateJobModal(props) {
                         <option>in-office/full time</option>
                      </Form.Control>
                      <Form.Text>
-                        <em>Press Ctrl for multpiple selection</em>
+                        <em>
+                           Press <b>Ctrl</b> for multpiple selection
+                        </em>
                      </Form.Text>
                   </Form.Group>
 
