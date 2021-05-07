@@ -1,4 +1,4 @@
-import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import { HashRouter, Switch, Route } from 'react-router-dom';
 import './App.css';
 import HomePage from './pages';
 import CompanyDashboard from './pages/dashboard/company.dashboard';
@@ -11,7 +11,7 @@ import SingleJobPage from './pages/singleJobPage';
 
 function App() {
    return (
-      <BrowserRouter>
+      <HashRouter>
          <div className="App">
             <Switch>
                <Route exact path="/">
@@ -46,7 +46,7 @@ function App() {
                </Route>
             </Switch>
          </div>
-      </BrowserRouter>
+      </HashRouter>
    );
 }
 
