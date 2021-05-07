@@ -1,10 +1,11 @@
 import axios from 'axios';
+import jwtDecode from 'jwt-decode';
 import React, { useState, useRef } from 'react';
 import { Button, Form } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import styled from 'styled-components';
-import { storeRole, storeToken } from '../../auth/auth.states';
+import { storeDecoded, storeToken } from '../../auth/auth.states';
 import AuthLayouts from '../../layouts/auth';
 
 const FormContainer = styled.div`
@@ -28,16 +29,18 @@ function CompanyLogin() {
       axios
          .post('/api/users/login', { email, password })
          .then((res) => {
-            // console.log(res);
+            console.log(res);
+
             storeToken(res?.data?.token);
-            storeRole('company');
+            storeDecoded(jwtDecode(res?.data?.token));
          })
          .catch((err) => {
-            // console.log(err);
-            // console.log(err.response);
+            console.log(err);
+            console.log(err.response);
 
             toast.error(err?.response?.data?.email);
             toast.error(err?.response?.data?.password);
+            toast.error(err?.response?.data?.error);
          })
          .finally(() => {
             setIsLoading(false);
@@ -58,7 +61,7 @@ function CompanyLogin() {
                   <Form.Control ref={passwordRef} type="password" placeholder="your password"></Form.Control>
                </Form.Group>
                <Form.Group>
-                  <Button type="submit" variant="primary" block disabled={isLoading}>
+                  <Button type="submit" variant="success" block disabled={isLoading}>
                      {!isLoading && <span>Login as recruiter</span>}
                      {!!isLoading && <span>logging in...</span>}
                   </Button>
@@ -66,7 +69,7 @@ function CompanyLogin() {
                <Form.Group className="d-flex flex-column align-items-center">
                   <Link to="/">Forgot password</Link>
                   <Link to="/signup/company">Create recruiter account</Link>
-                  <Link to="/login">Login as recruiter</Link>
+                  <Link to="/login">Login as seeker</Link>
                </Form.Group>
             </Form>
          </FormContainer>

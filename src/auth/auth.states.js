@@ -2,13 +2,14 @@ import { observable } from 'mobx';
 
 const authStates = observable({
    token: '',
-   role: '',
+   decoded: '',
+
    // token stored here to avoid frequent localstorage access
    setToken: (tok) => {
       authStates.token = tok;
    },
-   setRole: (rol) => {
-      authStates.role = rol;
+   setDecoded: (dec) => {
+      authStates.decoded = dec;
    },
 });
 
@@ -16,8 +17,10 @@ export default authStates;
 
 export const storeToken = (token) => {
    localStorage.setItem('token', token);
+   authStates.setToken(token);
 };
 
-export const storeRole = (role) => {
-   localStorage.setItem('role', role);
+export const storeDecoded = (decoded) => {
+   localStorage.setItem('decoded', decoded);
+   authStates.setDecoded(decoded);
 };

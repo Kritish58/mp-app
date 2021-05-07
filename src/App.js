@@ -24,9 +24,9 @@ const App = observer(() => {
       setBaseUrl();
       // initial setting of token
       const token = localStorage.getItem('token');
-      const role = localStorage.getItem('role');
+      const decoded = localStorage.getItem('decoded');
       authStates.setToken(token);
-      authStates.setRole(role);
+      authStates.setDecoded(decoded);
 
       return () => {};
    }, []);

@@ -1,10 +1,11 @@
 import axios from 'axios';
+import jwtDecode from 'jwt-decode';
 import React, { useState, useRef } from 'react';
 import { Button, Form } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import styled from 'styled-components';
-import { storeToken } from '../../auth/auth.states';
+import { storeDecoded, storeToken } from '../../auth/auth.states';
 import AuthLayouts from '../../layouts/auth';
 
 const FormContainer = styled.div`
@@ -30,15 +31,19 @@ function CompanySignup() {
             role: 'user',
          })
          .then((res) => {
-            // console.log(res);
+            console.log(res);
+
             storeToken(res?.data?.token);
+            storeDecoded(jwtDecode(res?.data?.token));
          })
          .catch((err) => {
-            // console.log(err);
-            // console.log(err.response);
+            console.log(err);
+            console.log(err.response);
+
             toast.error(err?.response?.data?.name);
             toast.error(err?.response?.data?.email);
             toast.error(err?.response?.data?.password);
+            toast.error(err?.response?.data?.error);
          })
          .finally(() => {
             setIsLoading(false);
