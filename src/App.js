@@ -1,10 +1,13 @@
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import './App.css';
 import HomePage from './pages';
+import CompanyDashboard from './pages/dashboard/company.dashboard';
+import UserDashboard from './pages/dashboard/user.dashboard';
 import CompanyLogin from './pages/login/company.login';
 import UserLogin from './pages/login/user.login';
 import CompanySignup from './pages/signup/company.signup';
 import UserSignup from './pages/signup/user.signup';
+import SingleJobPage from './pages/singleJobPage';
 
 function App() {
    return (
@@ -27,19 +30,13 @@ function App() {
                   <CompanySignup />
                </Route>
                <Route path="/dashboard/company/:company_id">
-                  <div>
-                     <h1>COMPANY DASHBOARD</h1>
-                  </div>
+                  <CompanyDashboard />
                </Route>
                <Route exact path="/dashboard/:user_id">
-                  <div>
-                     <h1>USER DASHBOARD</h1>
-                  </div>
+                  <UserDashboard />
                </Route>
                <Route path="/jobs/:job_slug_or_job_id">
-                  <div>
-                     <h1>SINGLE JOB PAGE</h1>
-                  </div>
+                  <SingleJobPage />
                </Route>
                <Route>
                   <div>
