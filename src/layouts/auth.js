@@ -1,7 +1,7 @@
 import React from 'react';
 
 function AuthLayots(props) {
-   return <div>{...props}</div>;
+   return <div style={{}}>{...props}</div>;
 }
 
 export default AuthLayots;
