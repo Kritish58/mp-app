@@ -11,11 +11,42 @@ function App() {
       <BrowserRouter>
          <div className="App">
             <Switch>
-               <Route exact path="/" component={() => <HomePage />} />
-               <Route path="/user-login" component={() => <UserLogin />} />
-               <Route path="/user-signup" component={() => <UserSignup />} />
-               <Route path="/company-login" component={() => <CompanyLogin />} />
-               <Route path="/company-signup" component={() => <CompanySignup />} />
+               <Route exact path="/">
+                  <HomePage />
+               </Route>
+               <Route path="/login">
+                  <UserLogin />
+               </Route>
+               <Route exact path="/signup">
+                  <UserSignup />
+               </Route>
+               <Route path="/login/company">
+                  <CompanyLogin />
+               </Route>
+               <Route path="/signup/company">
+                  <CompanySignup />
+               </Route>
+               <Route path="/dashboard/company/:company_id">
+                  <div>
+                     <h1>COMPANY DASHBOARD</h1>
+                  </div>
+               </Route>
+               <Route exact path="/dashboard/:user_id">
+                  <div>
+                     <h1>USER DASHBOARD</h1>
+                  </div>
+               </Route>
+               <Route path="/jobs/:job_slug_or_job_id">
+                  <div>
+                     <h1>SINGLE JOB PAGE</h1>
+                  </div>
+               </Route>
+               <Route>
+                  <div>
+                     <h1>404</h1>
+                     <p>Page Not Found</p>
+                  </div>
+               </Route>
             </Switch>
          </div>
       </BrowserRouter>
