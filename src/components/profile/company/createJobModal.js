@@ -1,7 +1,24 @@
 import React, { useState } from 'react';
 import { Button, Form, Modal } from 'react-bootstrap';
+import Select from 'react-select';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+
+const empTypeOpts = [
+   { value: 'internship', label: 'internship' },
+   { value: 'full-time', label: 'full-time' },
+   { value: 'part-time', label: 'part-time' },
+   { value: 'remote', label: 'remote' },
+   { value: 'non-remote', label: 'non-remote' },
+];
+
+const levelOpts = [
+   { value: 'internship', label: 'internship' },
+   { value: 'entry/junior', label: 'entry/junior' },
+   { value: 'mid', label: 'mid' },
+   { value: 'senior', label: 'senior' },
+   { value: 'expert', label: 'expert' },
+];
 
 function CreateJobModal(props) {
    //
@@ -39,13 +56,7 @@ function CreateJobModal(props) {
 
                   <Form.Group>
                      <Form.Label>Seniority level</Form.Label>
-                     <Form.Control as="select" multiple>
-                        <option>entry/internship</option>
-                        <option>junior</option>
-                        <option>mid</option>
-                        <option>senior</option>
-                        <option>expert</option>
-                     </Form.Control>
+                     <Select options={levelOpts} isMulti />
                      <Form.Text>
                         <em>
                            Press <b>Ctrl</b> for multiple selection
@@ -55,12 +66,7 @@ function CreateJobModal(props) {
 
                   <Form.Group>
                      <Form.Label>Employment type</Form.Label>
-                     <Form.Control as="select" multiple>
-                        <option>remote/part time</option>
-                        <option>remote/full time</option>
-                        <option>in-office/part time</option>
-                        <option>in-office/full time</option>
-                     </Form.Control>
+                     <Select options={empTypeOpts} isMulti />
                      <Form.Text>
                         <em>
                            Press <b>Ctrl</b> for multpiple selection
