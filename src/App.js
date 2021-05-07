@@ -6,8 +6,8 @@ import 'react-toastify/dist/ReactToastify.css';
 // keeping app.css below to override toast css
 import './App.css';
 import HomePage from './pages';
-import CompanyDashboard from './pages/dashboard/company.dashboard';
-import UserDashboard from './pages/dashboard/user.dashboard';
+import CompanyProfile from './pages/profile/company.profile';
+import UserProfile from './pages/profile/user.profile';
 import CompanyLogin from './pages/login/company.login';
 import UserLogin from './pages/login/user.login';
 import CompanySignup from './pages/signup/company.signup';
@@ -62,11 +62,11 @@ const App = observer(() => {
                   <Route path="/signup/company">
                      <CompanySignup />
                   </Route>
-                  <Route path="/dashboard/company/:company_id">
-                     <CompanyDashboard />
+                  <Route path="/profile/company/:company_id">
+                     <CompanyProfile />
                   </Route>
-                  <Route exact path="/dashboard/:user_id">
-                     <UserDashboard />
+                  <Route path="/profile/user/:user_id">
+                     <UserProfile />
                   </Route>
                   <Route path="/jobs/:job_slug_or_job_id">
                      <SingleJobPage />
