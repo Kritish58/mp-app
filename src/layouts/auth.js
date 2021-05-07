@@ -13,8 +13,8 @@ function AuthLayots(props) {
          <motion.div
             initial={{ opacity: 0, marginLeft: 100 }}
             animate={{ opacity: 1, marginLeft: 0 }}
-            exit={{ opacity: 0, scale: 0 }}
-            transition={{ duration: 0.3 }}>
+            exit={{ opacity: 0, marginLeft: '-100px' }}
+            transition={{ duration: 0.2 }}>
             <>{props.children}</>
          </motion.div>
       </AuthContainer>
