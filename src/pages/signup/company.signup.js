@@ -2,7 +2,7 @@ import axios from 'axios';
 import jwtDecode from 'jwt-decode';
 import React, { useState, useRef } from 'react';
 import { Button, Form } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import styled from 'styled-components';
 import { storeDecoded, storeToken } from '../../auth/auth.states';
@@ -20,6 +20,8 @@ function CompanySignup() {
    const emailRef = useRef();
    const passwordRef = useRef();
 
+   const history = useHistory();
+
    const handleSubmit = (e) => {
       e.preventDefault();
 
@@ -35,7 +37,9 @@ function CompanySignup() {
             console.log(res);
 
             storeToken(res?.data?.token);
-            storeDecoded(jwtDecode(res?.data?.token));
+            const decoded = jwtDecode(res?.data?.token);
+            storeDecoded(decoded);
+            history.push(`/profile/user/${decoded?.id}`);
          })
          .catch((err) => {
             console.log(err);

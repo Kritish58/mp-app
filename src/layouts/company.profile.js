@@ -4,6 +4,7 @@ import React from 'react';
 function CompanyLayouts(props) {
    return (
       <motion.div
+         className="text-center"
          initial={{ opacity: 0 }}
          animate={{ opacity: 1 }}
          exit={{ opacity: 0 }}

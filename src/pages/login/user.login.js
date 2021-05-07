@@ -36,7 +36,7 @@ function UserLogin() {
             storeToken(res?.data?.token);
             const decoded = jwtDecode(res?.data?.token);
             storeDecoded(decoded);
-            history.push('/profile/company/decoded.id');
+            history.push(`/profile/user/${decoded?.id}`);
          })
          .catch((err) => {
             console.log(err);
