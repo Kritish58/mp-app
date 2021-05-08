@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
 import React from 'react';
 import { Container } from 'react-bootstrap';
+import Footer from './components/Footer';
 
 function AuthLayots(props) {
    return (
@@ -19,6 +20,9 @@ function AuthLayots(props) {
                </>
             </motion.div>
          </Container>
+         <div style={{ position: 'absolute', bottom: 0, width: '100%' }}>
+            <Footer />
+         </div>
       </>
    );
 }
