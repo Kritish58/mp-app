@@ -43,7 +43,6 @@ function CreateJobModal(props) {
    //
    const { showModal, setShowModal } = props;
    const handleCloseModal = () => setShowModal(false);
-   const handleShowModal = () => setShowModal(true);
 
    const history = useHistory();
 
@@ -99,10 +98,6 @@ function CreateJobModal(props) {
 
    return (
       <>
-         <Button variant="primary" onClick={handleShowModal}>
-            Add new job
-         </Button>
-
          <Modal
             dialogClassName="modal-min-width-80percent"
             show={showModal}

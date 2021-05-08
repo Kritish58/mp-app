@@ -23,6 +23,7 @@ function CompanySignup() {
    const emailRef = useRef();
    const passwordRef = useRef();
    const addressRef = useRef();
+   // const photoRef = useRef();
 
    const history = useHistory();
 
@@ -37,6 +38,7 @@ function CompanySignup() {
             password: passwordRef?.current?.value,
             address: addressRef?.current?.value,
             about: getAboutCompany(),
+            // photo: photoRef.current.files[0].name,
             role: 'company',
          })
          .then((res) => {
@@ -84,6 +86,7 @@ function CompanySignup() {
                </Form.Group>
 
                <Form.Group>
+                  <Form.Text>About company</Form.Text>
                   <CKEditor
                      editor={ClassicEditor}
                      data={getAboutCompany()}
@@ -98,6 +101,10 @@ function CompanySignup() {
                      }}
                   />
                </Form.Group>
+               {/* <Form.Group>
+                  <Form.Text>Upload Company Photo</Form.Text>
+                  <Form.File ref={photoRef}></Form.File>
+               </Form.Group> */}
                <Form.Group>
                   <Button type="submit" variant="success" block disabled={isLoading}>
                      {!isLoading && <span>Signup as recruiter</span>}
