@@ -67,7 +67,7 @@ const CompanyProfile = observer(() => {
                return (
                   <Card className="my-4 my-lg-1 my-xl-4 shadow-sm" style={{ maxWidth: 300, minWidth: 300 }} key={item}>
                      <div className="">
-                        <Card.Img variant="top" src="/logo.png" style={{ maxHeight: 200, maxWidth: 200 }} />
+                        <Card.Img variant="top" src="/company-logo.png" style={{ maxHeight: 200, maxWidth: 200 }} />
                      </div>
                      <Card.Body className="text-left">
                         <Card.Title>Job Title</Card.Title>
@@ -99,7 +99,7 @@ const CompanyProfile = observer(() => {
                return (
                   <Card className="my-4 my-lg-1 my-xl-4 shadow-sm" style={{ maxWidth: 300, minWidth: 300 }} key={item}>
                      <div className="">
-                        <Card.Img variant="top" src="/logo.png" style={{ maxHeight: 200, maxWidth: 200 }} />
+                        <Card.Img variant="top" src="/company-logo.png" style={{ maxHeight: 200, maxWidth: 200 }} />
                      </div>
                      <Card.Body className="text-left">
                         <Card.Title>Job Title</Card.Title>
