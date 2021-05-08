@@ -6,8 +6,8 @@ const NavbarContainer = styled.div`
    width: 100%;
    background-color: #343a40;
    padding: 40px 0px;
-   border-bottom-left-radius: 30%;
-   border-bottom-right-radius: 30%;
+   border-bottom-left-radius: 20%;
+   border-bottom-right-radius: 20%;
 `;
 
 function NavbarComponent() {
