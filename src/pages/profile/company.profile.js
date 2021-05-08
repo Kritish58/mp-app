@@ -123,6 +123,7 @@ const CompanyProfile = observer(() => {
                );
             })}
          </div>
+         <Button variant="outline-dark">Load more</Button>
 
          <CreateJobModal showModal={showModal} setShowModal={setShowModal} />
       </CompanyLayouts>
