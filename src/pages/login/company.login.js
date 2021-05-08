@@ -6,7 +6,7 @@ import { Link, useHistory } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import styled from 'styled-components';
 import { storeDecoded, storeToken } from '../../auth/auth.states';
-import AuthLayouts from '../../layouts/auth';
+import AuthLayouts from '../../layouts/auth.layouts';
 
 const FormContainer = styled.div`
    width: 40%;

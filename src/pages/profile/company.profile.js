@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import CreateJobModal from '../../components/profile/company/createJobModal';
-import CompanyLayouts from '../../layouts/company.profile';
+import CompanyLayouts from '../../layouts/company.profile.layouts';
 import { getDecoded, getToken } from '../../auth/auth.states';
 import { observer } from 'mobx-react';
 import { Button, Col, Row } from 'react-bootstrap';

@@ -1,5 +1,5 @@
 import React from 'react';
-import UserLayouts from '../../layouts/user.profile';
+import UserLayouts from '../../layouts/user.profile.layouts';
 
 function UserProfile() {
    return (

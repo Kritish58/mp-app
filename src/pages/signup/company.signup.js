@@ -8,7 +8,7 @@ import styled from 'styled-components';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { storeDecoded, storeToken } from '../../auth/auth.states';
-import AuthLayouts from '../../layouts/auth';
+import AuthLayouts from '../../layouts/auth.layouts';
 import { getAboutCompany, setAboutCompany } from './company.signup.data';
 
 const FormContainer = styled.div`
