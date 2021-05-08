@@ -1,4 +1,5 @@
 import React, { useState, useRef } from 'react';
+import { useHistory } from 'react-router-dom';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
@@ -8,7 +9,7 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { getJobDescription, setJobDescription } from './jobDescription.data';
 import axios from 'axios';
-import authStates from '../../../auth/auth.states';
+import { getToken } from '../../../auth/auth.states';
 import { toast } from 'react-toastify';
 
 const empTypeOpts = [
@@ -34,6 +35,8 @@ const industryOpts = [
    { value: 'human resource', label: 'human resource' },
    { value: 'marketing', label: 'marketing' },
    { value: 'management', label: 'management' },
+   { value: 'finance', label: 'finance' },
+   { value: 'others', label: 'others' },
 ];
 
 function CreateJobModal(props) {
@@ -41,6 +44,8 @@ function CreateJobModal(props) {
    const { showModal, setShowModal } = props;
    const handleCloseModal = () => setShowModal(false);
    const handleShowModal = () => setShowModal(true);
+
+   const history = useHistory();
 
    const [endDate, setEndDate] = useState(new Date());
    const [selectedIndustry, setIndustry] = useState(null);
@@ -73,7 +78,7 @@ function CreateJobModal(props) {
             },
             {
                headers: {
-                  authorization: authStates.token,
+                  authorization: getToken(),
                },
             }
          )
@@ -85,6 +90,7 @@ function CreateJobModal(props) {
             console.log(err);
             console.log(err.response);
             toast.error(err?.response?.data?.title + ' 😕');
+            if (err?.response?.status === 401) history.push('/login/company');
          })
          .finally(() => {
             setIsLoading(false);

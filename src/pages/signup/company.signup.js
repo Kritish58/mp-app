@@ -38,7 +38,7 @@ function CompanySignup() {
 
             storeToken(res?.data?.token);
             const decoded = jwtDecode(res?.data?.token);
-            storeDecoded(JSON.stringify(decoded));
+            storeDecoded(decoded);
             history.push(`/profile/company/${decoded?.id}`);
          })
          .catch((err) => {

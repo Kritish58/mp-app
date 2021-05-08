@@ -15,7 +15,6 @@ import UserSignup from './pages/signup/user.signup';
 import SingleJobPage from './pages/singleJobPage';
 import setBaseUrl from './axios/set.base.url';
 import { observer } from 'mobx-react';
-import authStates from './auth/auth.states';
 
 const App = observer(() => {
    const location = useLocation();
@@ -23,10 +22,6 @@ const App = observer(() => {
    useEffect(() => {
       setBaseUrl();
       // initial setting of token
-      const token = localStorage.getItem('token');
-      const decoded = localStorage.getItem('decoded');
-      authStates.setToken(token);
-      authStates.setDecoded(decoded);
 
       return () => {};
    }, []);

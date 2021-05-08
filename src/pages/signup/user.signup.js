@@ -38,7 +38,7 @@ function UserSignup() {
 
             storeToken(res?.data?.token);
             const decoded = jwtDecode(res?.data?.token);
-            storeDecoded(JSON.stringify(decoded));
+            storeDecoded(decoded);
             history.push(`/profile/user/${decoded?.id}`);
          })
          .catch((err) => {

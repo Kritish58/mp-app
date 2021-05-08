@@ -13,7 +13,7 @@ const FormContainer = styled.div`
    margin: 20px auto;
 `;
 
-function CompanyLogin() {
+const CompanyLogin = () => {
    const [isLoading, setIsLoading] = useState(false);
 
    const emailRef = useRef();
@@ -35,7 +35,7 @@ function CompanyLogin() {
 
             storeToken(res?.data?.token);
             const decoded = jwtDecode(res?.data?.token);
-            storeDecoded(JSON.stringify(decoded));
+            storeDecoded(decoded);
             history.push(`/profile/company/${decoded?.id}`);
          })
          .catch((err) => {
@@ -79,6 +79,6 @@ function CompanyLogin() {
          </FormContainer>
       </AuthLayouts>
    );
-}
+};
 
 export default CompanyLogin;

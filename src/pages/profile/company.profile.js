@@ -2,17 +2,19 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import CreateJobModal from '../../components/profile/company/createJobModal';
 import CompanyLayouts from '../../layouts/company.profile';
-import authStates from '../../auth/auth.states';
+import { getDecoded, getToken } from '../../auth/auth.states';
+import { observer } from 'mobx-react';
 
-function CompanyProfile() {
+const CompanyProfile = observer(() => {
    const [showModal, setShowModal] = useState(false);
 
    useEffect(() => {
-      // console.log(localStorage.getItem('decoded'));
-      console.log('DECODED', authStates.decoded);
-
       axios
-         .get(`/api/profiles/${authStates.decoded.id}`)
+         .get(`/api/profiles/${getDecoded()?.id}`, {
+            headers: {
+               authorization: getToken(),
+            },
+         })
          .then((res) => {
             console.log(res);
          })
@@ -30,6 +32,6 @@ function CompanyProfile() {
          <CreateJobModal showModal={showModal} setShowModal={setShowModal} />
       </CompanyLayouts>
    );
-}
+});
 
 export default CompanyProfile;
