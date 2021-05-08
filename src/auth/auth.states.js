@@ -20,3 +20,8 @@ export const getToken = () => {
    token = localStorage.getItem('token');
    return token;
 };
+
+export const doesTokenExist = () => {
+   if (localStorage.getItem('token') && localStorage.getItem('decoded')) return true;
+   return false;
+};

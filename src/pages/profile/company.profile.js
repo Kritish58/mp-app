@@ -65,7 +65,7 @@ const CompanyProfile = observer(() => {
          <div className="d-flex flex-wrap justify-content-around">
             {[1, 2, 3, 4, 5, 6].map((item) => {
                return (
-                  <Card className="my-4 my-md-1 my-xl-4 shadow-sm" style={{ maxWidth: 300, minWidth: 300 }} key={item}>
+                  <Card className="my-4 my-lg-1 my-xl-4 shadow-sm" style={{ maxWidth: 300, minWidth: 300 }} key={item}>
                      <div className="">
                         <Card.Img variant="top" src="/logo.png" style={{ maxHeight: 200, maxWidth: 200 }} />
                      </div>
@@ -97,7 +97,7 @@ const CompanyProfile = observer(() => {
          <div className="d-flex flex-wrap justify-content-around">
             {[1, 2, 3, 4, 5, 6].map((item) => {
                return (
-                  <Card className="my-4 my-md-1 my-xl-4 shadow-sm" style={{ maxWidth: 300, minWidth: 300 }} key={item}>
+                  <Card className="my-4 my-lg-1 my-xl-4 shadow-sm" style={{ maxWidth: 300, minWidth: 300 }} key={item}>
                      <div className="">
                         <Card.Img variant="top" src="/logo.png" style={{ maxHeight: 200, maxWidth: 200 }} />
                      </div>

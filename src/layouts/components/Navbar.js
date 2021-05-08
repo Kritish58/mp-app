@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Container, FormControl, InputGroup } from 'react-bootstrap';
+import { Button, Container, Dropdown, FormControl, InputGroup, Row } from 'react-bootstrap';
 import styled from 'styled-components';
 
 const NavbarContainer = styled.div`
@@ -13,6 +13,23 @@ const NavbarContainer = styled.div`
 function NavbarComponent() {
    return (
       <NavbarContainer>
+         <Dropdown>
+            <Dropdown.Toggle
+               id="dropdown-basic"
+               variant="dark"
+               style={{ position: 'absolute', left: 30, cursor: 'pointer' }}>
+               <i className="text-light bx bx-menu bx-flashing" style={{ fontSize: 24 }}></i>
+            </Dropdown.Toggle>
+
+            <Dropdown.Menu>
+               <Dropdown.Item onClick={() => console.log('clicked')}>
+                  <Row className="align-items-center justify-content-center">
+                     <i className="mr-2 bx bx-log-out"></i> <span>Log out</span>
+                  </Row>
+               </Dropdown.Item>
+            </Dropdown.Menu>
+         </Dropdown>
+
          <Container>
             <div className="d-flex justify-content-between align-items-center flex-wrap">
                <div>
