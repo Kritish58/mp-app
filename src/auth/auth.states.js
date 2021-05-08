@@ -22,5 +22,5 @@ export const storeToken = (token) => {
 
 export const storeDecoded = (decoded) => {
    localStorage.setItem('decoded', decoded);
-   authStates.setDecoded(decoded);
+   authStates.setDecoded(JSON.parse(decoded));
 };

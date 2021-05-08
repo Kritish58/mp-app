@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
@@ -6,9 +6,12 @@ import { Button, Form, Modal } from 'react-bootstrap';
 import Select from 'react-select';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import { getJobDescription, setJobDescription } from './jobDescription.data';
+import axios from 'axios';
+import authStates from '../../../auth/auth.states';
+import { toast } from 'react-toastify';
 
 const empTypeOpts = [
-   { value: 'internship', label: 'internship' },
    { value: 'full-time', label: 'full-time' },
    { value: 'part-time', label: 'part-time' },
    { value: 'remote', label: 'remote' },
@@ -23,13 +26,71 @@ const levelOpts = [
    { value: 'expert', label: 'expert' },
 ];
 
+const industryOpts = [
+   { value: 'software', label: 'software' },
+   { value: 'networking', label: 'networking' },
+   { value: 'cyber security', label: 'cyber security' },
+   { value: 'internet of things (iot)', label: 'internet of things (iot)' },
+   { value: 'human resource', label: 'human resource' },
+   { value: 'marketing', label: 'marketing' },
+   { value: 'management', label: 'management' },
+];
+
 function CreateJobModal(props) {
    //
    const { showModal, setShowModal } = props;
-   const [endDate, setEndDate] = useState(new Date());
-
    const handleCloseModal = () => setShowModal(false);
    const handleShowModal = () => setShowModal(true);
+
+   const [endDate, setEndDate] = useState(new Date());
+   const [selectedIndustry, setIndustry] = useState(null);
+   const [selectedEmpType, setEmpType] = useState(null);
+   const [selectedLevel, setLevel] = useState(null);
+   const [isLoading, setIsLoading] = useState(false);
+
+   const titleRef = useRef();
+   const locationRef = useRef();
+   const applicantsRef = useRef();
+   const salaryRef = useRef();
+
+   const handleSubmit = (e) => {
+      e.preventDefault();
+
+      setIsLoading(true);
+      axios
+         .post(
+            '/api/jobs',
+            {
+               title: titleRef.current.value,
+               location: locationRef.current.value,
+               total_applicants: applicantsRef.current.value,
+               industry: selectedIndustry?.map((ind) => ind?.value).toString(),
+               seniority_level: selectedLevel?.map((lvl) => lvl?.value).toString(),
+               emp_type: selectedEmpType?.map((emp) => emp?.value).toString(),
+               salary: salaryRef.current.value,
+               description: getJobDescription(),
+               endDate,
+            },
+            {
+               headers: {
+                  authorization: authStates.token,
+               },
+            }
+         )
+         .then((res) => {
+            console.log(res);
+            toast.success('job created ⚡');
+         })
+         .catch((err) => {
+            console.log(err);
+            console.log(err.response);
+            toast.error(err?.response?.data?.title + ' 😕');
+         })
+         .finally(() => {
+            setIsLoading(false);
+         });
+   };
+
    return (
       <>
          <Button variant="primary" onClick={handleShowModal}>
@@ -42,29 +103,47 @@ function CreateJobModal(props) {
             backdrop="static"
             keyboard={false}
             onHide={handleCloseModal}>
-            <Form>
+            <Form onSubmit={handleSubmit}>
                <Modal.Header closeButton>
                   <Modal.Title>Create a job</Modal.Title>
                </Modal.Header>
                <Modal.Body>
                   <Form.Group>
                      <Form.Label>Job Title</Form.Label>
-                     <Form.Control type="text"></Form.Control>
+                     <Form.Control ref={titleRef} type="text" placeholder="react developer"></Form.Control>
                   </Form.Group>
 
                   <Form.Group>
                      <Form.Label>Job Location</Form.Label>
-                     <Form.Control type="text"></Form.Control>
+                     <Form.Control
+                        ref={locationRef}
+                        type="text"
+                        placeholder="dharan-15, shyam chowk, sunsari"></Form.Control>
                   </Form.Group>
 
                   <Form.Group>
                      <Form.Label>Total applicants</Form.Label>
-                     <Form.Control type="number"></Form.Control>
+                     <Form.Control ref={applicantsRef} type="number" placeholder="10"></Form.Control>
+                  </Form.Group>
+
+                  <Form.Group>
+                     <Form.Label>Salary</Form.Label>
+                     <Form.Control ref={salaryRef} type="text" placeholder="//Negotiable //40000-60000"></Form.Control>
+                  </Form.Group>
+
+                  <Form.Group>
+                     <Form.Label>Industry</Form.Label>
+                     <Select options={industryOpts} onChange={(selected) => setIndustry(selected)} isMulti />
+                     <Form.Text>
+                        <em>
+                           Press <b>Ctrl</b> for multiple selection
+                        </em>
+                     </Form.Text>
                   </Form.Group>
 
                   <Form.Group>
                      <Form.Label>Seniority level</Form.Label>
-                     <Select options={levelOpts} isMulti />
+                     <Select options={levelOpts} onChange={(selected) => setLevel(selected)} isMulti />
                      <Form.Text>
                         <em>
                            Press <b>Ctrl</b> for multiple selection
@@ -74,7 +153,7 @@ function CreateJobModal(props) {
 
                   <Form.Group>
                      <Form.Label>Employment type</Form.Label>
-                     <Select options={empTypeOpts} isMulti />
+                     <Select options={empTypeOpts} onChange={(selected) => setEmpType(selected)} isMulti />
                      <Form.Text>
                         <em>
                            Press <b>Ctrl</b> for multpiple selection
@@ -82,22 +161,23 @@ function CreateJobModal(props) {
                      </Form.Text>
                   </Form.Group>
 
-                  <Form.Group>
+                  {/* <Form.Group>
                      <Form.Label>Job Status</Form.Label>
-                     <Form.Control type="text"></Form.Control>
-                  </Form.Group>
+                     <Form.Control ref={statusRef} type="text"></Form.Control>
+                  </Form.Group> */}
 
                   <Form.Group>
                      <Form.Label>Job Description</Form.Label>
                      <CKEditor
                         editor={ClassicEditor}
-                        data="<p>Hello from CKEditor 5!</p>"
+                        data={getJobDescription()}
                         onReady={(editor) => {
                            // You can store the "editor" and use when it is needed.
                            console.log('Editor is ready to use!', editor);
                         }}
                         onChange={(event, editor) => {
                            const data = editor.getData();
+                           setJobDescription(data);
                            console.log({ event, editor, data });
                         }}
                      />
@@ -109,8 +189,9 @@ function CreateJobModal(props) {
                   </Form.Group>
                </Modal.Body>
                <Modal.Footer>
-                  <Button type="submit" variant="success" block>
-                     Finish
+                  <Button type="submit" variant="success" block disabled={isLoading}>
+                     {!isLoading && <span>Finish</span>}
+                     {!!isLoading && <span>processing...</span>}
                   </Button>
                </Modal.Footer>
             </Form>
