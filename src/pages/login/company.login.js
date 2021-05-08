@@ -33,7 +33,7 @@ const CompanyLogin = () => {
          .then((res) => {
             console.log(res);
 
-            storeToken(res?.data?.token);
+            storeToken('Bearer ' + res?.data?.token);
             const decoded = jwtDecode(res?.data?.token);
             storeDecoded(decoded);
             history.push(`/profile/company/${decoded?.id}`);

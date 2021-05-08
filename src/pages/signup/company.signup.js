@@ -5,11 +5,14 @@ import { Button, Form } from 'react-bootstrap';
 import { Link, useHistory } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import styled from 'styled-components';
+import { CKEditor } from '@ckeditor/ckeditor5-react';
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { storeDecoded, storeToken } from '../../auth/auth.states';
 import AuthLayouts from '../../layouts/auth';
+import { getAboutCompany, setAboutCompany } from './company.signup.data';
 
 const FormContainer = styled.div`
-   width: 40%;
+   width: 60%;
    margin: 20px auto;
 `;
 
@@ -19,6 +22,7 @@ function CompanySignup() {
    const nameRef = useRef();
    const emailRef = useRef();
    const passwordRef = useRef();
+   const addressRef = useRef();
 
    const history = useHistory();
 
@@ -31,6 +35,8 @@ function CompanySignup() {
             name: nameRef?.current?.value,
             email: emailRef?.current?.value,
             password: passwordRef?.current?.value,
+            address: addressRef?.current?.value,
+            about: getAboutCompany(),
             role: 'company',
          })
          .then((res) => {
@@ -71,6 +77,26 @@ function CompanySignup() {
                <Form.Group>
                   <Form.Text>Password</Form.Text>
                   <Form.Control ref={passwordRef} type="password" placeholder="type your password"></Form.Control>
+               </Form.Group>
+               <Form.Group>
+                  <Form.Text>Address</Form.Text>
+                  <Form.Control ref={addressRef} type="text" placeholder="company address"></Form.Control>
+               </Form.Group>
+
+               <Form.Group>
+                  <CKEditor
+                     editor={ClassicEditor}
+                     data={getAboutCompany()}
+                     onReady={(editor) => {
+                        // You can store the "editor" and use when it is needed.
+                        console.log('Editor is ready to use!', editor);
+                     }}
+                     onChange={(event, editor) => {
+                        const data = editor.getData();
+                        setAboutCompany(data);
+                        console.log({ event, editor, data });
+                     }}
+                  />
                </Form.Group>
                <Form.Group>
                   <Button type="submit" variant="success" block disabled={isLoading}>

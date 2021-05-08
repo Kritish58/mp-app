@@ -9,10 +9,13 @@ const CompanyProfile = observer(() => {
    const [showModal, setShowModal] = useState(false);
 
    useEffect(() => {
+      console.log(getDecoded());
+      console.log(getToken());
+
       axios
          .get(`/api/profiles/${getDecoded()?.id}`, {
             headers: {
-               authorization: getToken(),
+               Authorization: getToken(),
             },
          })
          .then((res) => {
