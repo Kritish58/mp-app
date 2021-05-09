@@ -41,7 +41,7 @@ function NavbarComponent() {
                      <FormControl placeholder="job search" size="lg" />
                      <InputGroup.Append>
                         <Button size="lg" variant="success">
-                           search
+                           <i className="bx bx-search"></i>
                         </Button>
                      </InputGroup.Append>
                   </InputGroup>

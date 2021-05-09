@@ -83,8 +83,11 @@ const CompanyProfile = observer(() => {
                         <small className="d-block">
                            <em>expertise: </em> Seniority Level
                         </small>
-                        <Button className="mt-2" variant="primary" block>
-                           view
+                        <Button
+                           className="mt-2 d-flex justify-content-center align-items-center"
+                           variant="primary"
+                           block>
+                           <p style={{ marginBottom: 3 }}>view</p> <i className="ml-2 bx bx-arrow-to-right"></i>
                         </Button>
                      </Card.Body>
                   </Card>
@@ -115,8 +118,11 @@ const CompanyProfile = observer(() => {
                         <small className="d-block">
                            <em>experience: </em> Seniority Level
                         </small>
-                        <Button className="mt-2" variant="primary" block>
-                           view
+                        <Button
+                           className="mt-2 d-flex justify-content-center align-items-center"
+                           variant="primary"
+                           block>
+                           <p style={{ marginBottom: 3 }}>view</p> <i className="ml-2 bx bx-arrow-to-right"></i>
                         </Button>
                      </Card.Body>
                   </Card>
