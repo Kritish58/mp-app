@@ -32,7 +32,7 @@ const CompanyProfile = observer(() => {
    return (
       <CompanyLayouts>
          <Row className="my-4 flex-wrap">
-            <Col xs={12} md={6} className="p-2 border rounded">
+            <Col xs={12} md={6} className="p-2">
                <img src="/company-logo.png" alt="company logo" height="200" />
                <h1 style={{ fontWeight: 300 }}>Company Name</h1>
                <small>company address</small>

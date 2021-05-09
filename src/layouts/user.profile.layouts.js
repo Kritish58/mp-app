@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
 import React from 'react';
 import { Container } from 'react-bootstrap';
+import Footer from './components/Footer';
 import NavbarComponent from './components/Navbar';
 
 function UserLayouts(props) {
@@ -16,6 +17,7 @@ function UserLayouts(props) {
                <>{props.children}</>
             </motion.div>
          </Container>
+         <Footer />
       </>
    );
 }

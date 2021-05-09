@@ -1,6 +1,8 @@
 import React from 'react';
+import { useHistory } from 'react-router-dom';
 import { Button, Container, Dropdown, FormControl, InputGroup, Row } from 'react-bootstrap';
 import styled from 'styled-components';
+import { handleLogout } from '../../auth/auth.states';
 
 const NavbarContainer = styled.div`
    width: 100%;
@@ -11,6 +13,15 @@ const NavbarContainer = styled.div`
 `;
 
 function NavbarComponent() {
+   const history = useHistory();
+
+   const logout = () => {
+      handleLogout();
+      if (history?.location?.pathname?.includes('/profile/company')) history.push('/login/company');
+      else history.push('/login');
+      return;
+   };
+
    return (
       <NavbarContainer>
          <Dropdown>
@@ -22,7 +33,7 @@ function NavbarComponent() {
             </Dropdown.Toggle>
 
             <Dropdown.Menu>
-               <Dropdown.Item onClick={() => console.log('clicked')}>
+               <Dropdown.Item onClick={() => logout()}>
                   <Row className="align-items-center justify-content-center">
                      <i className="mr-2 bx bx-log-out"></i> <span>Log out</span>
                   </Row>

@@ -25,3 +25,9 @@ export const doesTokenExist = () => {
    if (localStorage.getItem('token') && localStorage.getItem('decoded')) return true;
    return false;
 };
+
+export const handleLogout = () => {
+   localStorage.removeItem('token');
+   localStorage.removeItem('decoded');
+   return;
+};
