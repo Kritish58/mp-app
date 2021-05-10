@@ -169,19 +169,23 @@ function SingleJobPage() {
                         {!!isApplying && <span>processing...</span>}
                      </Button>
                   )}
-                  {
+                  {getDecoded()?.role === 'company' && (
                      <>
-                        <Button size="" variant="success" onClick={() => setEditModal(true)}>
+                        <Button size="" variant="primary" onClick={() => setEditModal(true)}>
                            <span>edit</span>
                         </Button>
-                        <Button size="" className="mx-2" variant="dark" onClick={() => setApplicantsModal(true)}>
+                        <Button
+                           size=""
+                           className="mx-2"
+                           variant="outline-secondary"
+                           onClick={() => setApplicantsModal(true)}>
                            <span>view applicants</span>
                         </Button>
-                        <Button size="" variant="primary" onClick={() => setShortsModal(true)}>
+                        <Button size="" variant="success" onClick={() => setShortsModal(true)}>
                            <span>view shortlisted</span>
                         </Button>
                      </>
-                  }
+                  )}
                </Col>
                <Col sm={12} md={4} className="p-2">
                   <Row className="flex-column align-items-center justify-content-end">
@@ -213,9 +217,13 @@ function SingleJobPage() {
             )}
          </div>
 
-         <EditJob showEditModal={showEditModal} setEditModal={setEditModal} />
-         <ViewApplicants showApplicantsModal={showApplicantsModal} setApplicantsModal={setApplicantsModal} />
-         <ViewShortListed showShortsModal={showShortsModal} setShortsModal={setShortsModal} />
+         {getDecoded()?.role === 'company' && (
+            <>
+               <EditJob job={job} showEditModal={showEditModal} setEditModal={setEditModal} />
+               <ViewApplicants showApplicantsModal={showApplicantsModal} setApplicantsModal={setApplicantsModal} />
+               <ViewShortListed showShortsModal={showShortsModal} setShortsModal={setShortsModal} />
+            </>
+         )}
       </SingleJobPageLayouts>
    );
 }
