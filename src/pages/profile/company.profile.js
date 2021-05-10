@@ -10,15 +10,23 @@ import { getDecoded, getToken } from '../../auth/auth.states';
 import { observer } from 'mobx-react';
 import { Button, Col, Row } from 'react-bootstrap';
 import JobCard from '../../components/jobs/Card';
+import { useHistory } from 'react-router';
 
 const CompanyProfile = observer(() => {
    const [showModal, setShowModal] = useState(false);
    const [profile, setProfile] = useState(null);
    const [postedJobs, setPostedJobs] = useState([]);
 
+   const history = useHistory();
+
    useEffect(() => {
       // console.log(getDecoded());
       // console.log(getToken());
+
+      if (getDecoded()?.role !== 'company') {
+         history.push('/login');
+         return;
+      }
 
       axios
          .get(`/api/profiles/${getDecoded()?.id}`, {
@@ -33,12 +41,13 @@ const CompanyProfile = observer(() => {
          .catch((err) => {
             console.log(err);
             console.log(err.response);
+            if (err.response?.status === 401) history.push('/login/company');
          });
 
       fetchAppliedJobs();
 
       return () => {};
-   }, []);
+   }, [history]);
 
    const fetchAppliedJobs = () => {
       axios

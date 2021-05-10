@@ -43,18 +43,19 @@ function NavbarComponent(props) {
             </Dropdown.Toggle>
 
             <Dropdown.Menu>
-               {(page === 'user-profile' || page === 'company-profile' || page === 'single-job-page') && (
-                  <Dropdown.Item onClick={() => goHome()}>
-                     <Row className="align-items-center justify-content-center">
-                        <Col sm={3}>
-                           <i className="bx bx-home-alt"></i>
-                        </Col>
-                        <Col sm={9}>
-                           <span>home</span>
-                        </Col>
-                     </Row>
-                  </Dropdown.Item>
-               )}
+               {(page === 'user-profile' || page === 'company-profile' || page === 'single-job-page') &&
+                  getDecoded()?.role !== 'company' && (
+                     <Dropdown.Item onClick={() => goHome()}>
+                        <Row className="align-items-center justify-content-center">
+                           <Col sm={3}>
+                              <i className="bx bx-home-alt"></i>
+                           </Col>
+                           <Col sm={9}>
+                              <span>home</span>
+                           </Col>
+                        </Row>
+                     </Dropdown.Item>
+                  )}
 
                {(page === 'home' || page === 'single-job-page') && (
                   <Dropdown.Item onClick={() => visitProfile()}>

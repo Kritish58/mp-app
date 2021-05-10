@@ -33,8 +33,12 @@ const CompanyLogin = () => {
          .then((res) => {
             console.log(res);
 
-            storeToken(res?.data?.token);
             const decoded = jwtDecode(res?.data?.token);
+            if (decoded?.role !== 'company') {
+               toast.error('invalid user');
+               return;
+            }
+            storeToken(res?.data?.token);
             storeDecoded(decoded);
             setLoginState(true);
             history.push(`/profile/company/${decoded?.id}`);

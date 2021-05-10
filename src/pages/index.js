@@ -4,7 +4,7 @@ import { useHistory } from 'react-router-dom';
 import Slider from 'react-slick';
 
 import { slickSettings } from '../utils/slick.settings';
-import { getLoginState, getToken } from '../auth/auth.states';
+import { getDecoded, getLoginState, getToken } from '../auth/auth.states';
 import JobCard from '../components/jobs/Card';
 import HomeLayouts from '../layouts/home.layouts';
 import axios from 'axios';
@@ -17,6 +17,10 @@ function HomePage() {
    useEffect(() => {
       if (!getLoginState()) {
          history.push('/login');
+         return;
+      }
+      if (getLoginState() && getDecoded()?.role === 'company') {
+         history.push(`/profile/company/${getDecoded()?.id}`);
          return;
       }
 

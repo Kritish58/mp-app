@@ -217,11 +217,15 @@ function SingleJobPage() {
             )}
          </div>
 
-         {getDecoded()?.role === 'company' && (
+         {getDecoded()?.role === 'company' && getDecoded()?.id.toString() === job?.company?._id.toString() && (
             <>
                <EditJob job={job} showEditModal={showEditModal} setEditModal={setEditModal} />
-               <ViewApplicants showApplicantsModal={showApplicantsModal} setApplicantsModal={setApplicantsModal} />
-               <ViewShortListed showShortsModal={showShortsModal} setShortsModal={setShortsModal} />
+               <ViewApplicants
+                  job={job}
+                  showApplicantsModal={showApplicantsModal}
+                  setApplicantsModal={setApplicantsModal}
+               />
+               <ViewShortListed job={job} showShortsModal={showShortsModal} setShortsModal={setShortsModal} />
             </>
          )}
       </SingleJobPageLayouts>

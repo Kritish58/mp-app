@@ -33,8 +33,12 @@ const UserLogin = () => {
          .then((res) => {
             console.log(res);
 
-            storeToken(res?.data?.token);
             const decoded = jwtDecode(res?.data?.token);
+            if (decoded?.role !== 'user') {
+               toast.error('invalid user');
+               return;
+            }
+            storeToken(res?.data?.token);
             storeDecoded(decoded);
             setLoginState(true);
             history.push('/');

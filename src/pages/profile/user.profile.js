@@ -5,14 +5,22 @@ import UserLayouts from '../../layouts/user.profile.layouts';
 import { getToken, getDecoded } from '../../auth/auth.states';
 import { Button, Col, Row } from 'react-bootstrap';
 import JobCard from '../../components/jobs/Card';
+import { useHistory } from 'react-router';
 
 function UserProfile() {
    const [profile, setProfile] = useState(null);
    const [appliedJobs, setAppliedJobs] = useState([]);
 
+   const history = useHistory();
+
    useEffect(() => {
       // console.log(getDecoded());
       // console.log(getToken());
+
+      if (getDecoded()?.role !== 'user') {
+         history.push('/login');
+         return;
+      }
 
       const asyncFunc = async () => {
          try {
@@ -31,13 +39,14 @@ function UserProfile() {
          } catch (err) {
             console.log(err);
             console.log(err.response);
+            if (err.response?.status === 401) history.push('/login');
          }
       };
 
       asyncFunc();
 
       return () => {};
-   }, []);
+   }, [history]);
 
    return (
       <UserLayouts page="user-profile">
