@@ -63,17 +63,25 @@ const CompanyProfile = observer(() => {
          </Row>
          <hr />
          <h2 className="text-left">Jobs Posted</h2>
-         <div className="d-flex flex-wrap justify-content-around">
-            {[1, 2, 3, 4, 5, 6].map((item) => {
-               return <JobCard />;
+         <div className="d-flex flex-wrap justify-content-start">
+            {[1, 2, 3, 4, 5, 6].map((item, index) => {
+               return (
+                  <div className="mx-2" key={index}>
+                     <JobCard />
+                  </div>
+               );
             })}
          </div>
 
          <hr />
          <h2 className="text-left">other jobs</h2>
          <div className="d-flex flex-wrap justify-content-around">
-            {[1, 2, 3, 4, 5, 6].map((item) => {
-               return <JobCard />;
+            {[1, 2, 3, 4, 5, 6].map((item, index) => {
+               return (
+                  <div className="mx-2" key={index}>
+                     <JobCard />
+                  </div>
+               );
             })}
          </div>
          <Button variant="outline-dark">Load more</Button>
