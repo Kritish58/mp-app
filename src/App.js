@@ -26,6 +26,11 @@ const App = observer(() => {
       return () => {};
    }, []);
 
+   useEffect(() => {
+      window.scrollTo(0, 0);
+      return () => {};
+   }, [location]);
+
    return (
       <>
          <div className="App">
