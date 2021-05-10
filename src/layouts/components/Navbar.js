@@ -1,5 +1,5 @@
 import React from 'react';
-import { useHistory } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { Button, Container, Dropdown, FormControl, InputGroup, Row } from 'react-bootstrap';
 import styled from 'styled-components';
 import { handleLogout } from '../../auth/auth.states';
@@ -43,9 +43,9 @@ function NavbarComponent() {
 
          <Container>
             <div className="d-flex justify-content-between align-items-center flex-wrap">
-               <div>
+               <Link to="/">
                   <img src="/logo.png" alt="logo" height="100" style={{ borderRadius: '100%' }} />
-               </div>
+               </Link>
                <div>
                   <div className="small text-light">Start your new career, search for jobs companies and people</div>
                   <InputGroup className="mb-3">

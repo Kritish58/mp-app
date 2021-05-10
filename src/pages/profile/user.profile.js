@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import UserLayouts from '../../layouts/user.profile.layouts';
 import { getToken, getDecoded } from '../../auth/auth.states';
@@ -6,23 +6,35 @@ import { Button, Col, Row } from 'react-bootstrap';
 import JobCard from '../../components/jobs/Card';
 
 function UserProfile() {
+   const [user, setUser] = useState(null);
+   const [appJobs, setAppJobs] = useState([]);
+
    useEffect(() => {
       // console.log(getDecoded());
       // console.log(getToken());
 
-      axios
-         .get(`/api/profiles/${getDecoded()?.id}`, {
-            headers: {
-               Authorization: getToken(),
-            },
-         })
-         .then((res) => {
-            console.log(res);
-         })
-         .catch((err) => {
+      const asyncFunc = async () => {
+         try {
+            const profile = await axios.get(`/api/profiles/${getDecoded()?.id}`, {
+               headers: {
+                  Authorization: getToken(),
+               },
+            });
+            console.log(profile);
+            setUser(profile.data.user);
+
+            const appliedJobs = await axios.get('/api/applied-jobs', { headers: { Authorization: getToken() } });
+            console.log('Applied Jobs', appliedJobs);
+            setAppJobs(appliedJobs.data);
+            //
+         } catch (err) {
             console.log(err);
             console.log(err.response);
-         });
+         }
+      };
+
+      asyncFunc();
+
       return () => {};
    }, []);
 
@@ -31,37 +43,39 @@ function UserProfile() {
          <Row className="my-4">
             <Col xs={12} md={6} className="text-center">
                <img src="/user-profile.png" alt="profile" height="200" width="200" style={{ borderRadius: '100%' }} />
-               <p className="lead">User name</p>
+               <p className="lead">{user?.name ?? 'undefined'}</p>
             </Col>
             <Col xs={12} md={6}>
                <h2 className="mb-4">Other details</h2>
                <div className="my-2">
                   <h5 className="my-0">Name</h5>
-                  <small>Maze Runner</small>
+                  <small>{user?.name ?? 'undefined'}</small>
                </div>
                <div className="my-2">
                   <h5 className="my-0">Email</h5>
-                  <small>company@gmail.com</small>
+                  <small>{user?.email ?? 'undefined'}</small>
                </div>
                <div className="my-2">
                   <h5 className="my-0">Address</h5>
-                  <small>dharan-15, shyam chowk, sunsari</small>
+                  <small>{user?.address ?? 'undefined'}</small>
                </div>
             </Col>
          </Row>
          <hr />
          <h3>Applied Jobs</h3>
          <div className="d-flex flex-wrap justify-content-around">
-            {[1, 2, 3].map((item) => {
+            {appJobs.map((job, index) => {
                return (
-                  <div key={item}>
+                  <div key={index}>
                      <JobCard />
                   </div>
                );
             })}
-            <div className="p-4 w-100 bg-light text-center" style={{ border: 'dashed 1px #aaa' }}>
-               <span className="text-muted lead">No Jobs Applied</span>
-            </div>
+            {!appJobs.length && (
+               <div className="p-4 w-100 bg-light text-center" style={{ border: 'dashed 1px #aaa' }}>
+                  <span className="text-muted lead">No jobs applied</span>
+               </div>
+            )}
          </div>
          <hr />
          <Row>
@@ -75,7 +89,7 @@ function UserProfile() {
                         </Button>
                      </div>
                   </div>
-                  <div>
+                  {/* <div>
                      <div>
                         <em className="text-muted">Company: </em> Company Name
                      </div>
@@ -85,6 +99,9 @@ function UserProfile() {
                      <div>
                         <em className="text-muted">Duration: </em> May - June 2017
                      </div>
+                  </div> */}
+                  <div className="p-2 mt-2 w-100 bg-light text-center" style={{ border: 'dashed 1px #aaa' }}>
+                     <span className="text-muted lead">No experiences added</span>
                   </div>
                </div>
             </Col>
@@ -98,10 +115,13 @@ function UserProfile() {
                         </Button>
                      </div>
                   </div>
-                  <div>
+                  {/* <div>
                      <span className="badge bg-primary text-light mx-1">React</span>
                      <span className="badge bg-primary text-light mx-1">Database</span>
                      <span className="badge bg-primary text-light mx-1">Programming</span>
+                  </div> */}
+                  <div className="p-2 mt-2 w-100 bg-light text-center" style={{ border: 'dashed 1px #aaa' }}>
+                     <span className="text-muted lead">No skills added</span>
                   </div>
                </div>
             </Col>
@@ -116,7 +136,7 @@ function UserProfile() {
                         </Button>
                      </div>
                   </div>
-                  <div>
+                  {/* <div>
                      <div>
                         <em className="text-muted">University: </em> University Name
                      </div>
@@ -126,6 +146,9 @@ function UserProfile() {
                      <div>
                         <em className="text-muted">Duration: </em> May - June 2017
                      </div>
+                  </div> */}
+                  <div className="p-2 mt-2 w-100 bg-light text-center" style={{ border: 'dashed 1px #aaa' }}>
+                     <span className="text-muted lead">No educations added</span>
                   </div>
                </div>
             </Col>

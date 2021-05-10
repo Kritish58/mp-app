@@ -1,5 +1,6 @@
 let token;
 let decoded;
+let isLoggedIn;
 
 export const storeDecoded = (decoded) => {
    localStorage.setItem('decoded', JSON.stringify(decoded));
@@ -29,5 +30,18 @@ export const doesTokenExist = () => {
 export const handleLogout = () => {
    localStorage.removeItem('token');
    localStorage.removeItem('decoded');
+   isLoggedIn = false;
    return;
+};
+
+export const getLoginState = () => {
+   if (isLoggedIn === undefined) {
+      if (localStorage.getItem('token') && localStorage.getItem('decoded')) {
+         isLoggedIn = true;
+         return true;
+      } else {
+         return false;
+      }
+   }
+   return isLoggedIn;
 };

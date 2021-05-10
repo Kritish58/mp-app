@@ -1,19 +1,18 @@
 import React, { useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
-import { doesTokenExist, getDecoded } from '../auth/auth.states';
+import { getDecoded, getLoginState } from '../auth/auth.states';
 
 function HomePage() {
    const history = useHistory();
 
    useEffect(() => {
-      console.log(getDecoded());
-
-      if (doesTokenExist()) {
+      if (getLoginState()) {
          history.push(`/profile/${getDecoded()?.roles}/${getDecoded()?.id}`);
          return;
       } else {
          history.push('/login');
       }
+
       return () => {};
    }, [history]);
 
