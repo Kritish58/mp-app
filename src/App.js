@@ -63,7 +63,7 @@ const App = observer(() => {
                   <Route path="/profile/user/:user_id">
                      <UserProfile />
                   </Route>
-                  <Route path="/jobs/:job_slug_or_job_id">
+                  <Route path="/jobs/:job_id">
                      <SingleJobPage />
                   </Route>
                   <Route>

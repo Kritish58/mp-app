@@ -43,17 +43,20 @@ function NavbarComponent(props) {
             </Dropdown.Toggle>
 
             <Dropdown.Menu>
-               <Dropdown.Item onClick={() => logout()}>
-                  <Row className="align-items-center justify-content-center">
-                     <Col sm={3}>
-                        <i className="mr-2 bx bx-log-out"></i>
-                     </Col>
-                     <Col sm={9}>
-                        <span>log out</span>
-                     </Col>
-                  </Row>
-               </Dropdown.Item>
-               {page && page === 'home' && (
+               {(page === 'user-profile' || page === 'company-profile' || page === 'single-job-page') && (
+                  <Dropdown.Item onClick={() => goHome()}>
+                     <Row className="align-items-center justify-content-center">
+                        <Col sm={3}>
+                           <i className="bx bx-home-alt"></i>
+                        </Col>
+                        <Col sm={9}>
+                           <span>home</span>
+                        </Col>
+                     </Row>
+                  </Dropdown.Item>
+               )}
+
+               {(page === 'home' || page === 'single-job-page') && (
                   <Dropdown.Item onClick={() => visitProfile()}>
                      <Row className="align-items-center justify-content-center">
                         <Col sm={3}>
@@ -66,18 +69,16 @@ function NavbarComponent(props) {
                   </Dropdown.Item>
                )}
 
-               {(page === 'user-profile' || page === 'company-profile') && (
-                  <Dropdown.Item onClick={() => goHome()}>
-                     <Row className="align-items-center justify-content-center">
-                        <Col sm={3}>
-                           <i className="bx bx-home-alt"></i>
-                        </Col>
-                        <Col sm={9}>
-                           <span>home</span>
-                        </Col>
-                     </Row>
-                  </Dropdown.Item>
-               )}
+               <Dropdown.Item onClick={() => logout()}>
+                  <Row className="align-items-center justify-content-center">
+                     <Col sm={3}>
+                        <i className="mr-2 bx bx-log-out"></i>
+                     </Col>
+                     <Col sm={9}>
+                        <span>log out</span>
+                     </Col>
+                  </Row>
+               </Dropdown.Item>
             </Dropdown.Menu>
          </Dropdown>
 
