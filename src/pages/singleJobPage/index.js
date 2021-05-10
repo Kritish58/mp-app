@@ -32,7 +32,7 @@ function SingleJobPage() {
          })
          .finally();
       return () => {};
-   }, []);
+   }, [params]);
 
    const applyJob = async (props) => {
       console.log(params);
