@@ -12,12 +12,24 @@ import axios from 'axios';
 function HomePage() {
    const history = useHistory();
    const [recentJobs, setRecentJobs] = useState([]);
+   const [recommendedJobs, setRecommended] = useState(null);
 
    useEffect(() => {
       if (!getLoginState()) {
          history.push('/login');
          return;
       }
+
+      axios
+         .get('/api/recommendations', { headers: { Authorization: getToken() } })
+         .then((res) => {
+            console.log(res);
+            setRecommended(res.data);
+         })
+         .catch((err) => {
+            console.log(err);
+            console.log(err.response);
+         });
 
       const asyncFunc = async () => {
          try {
@@ -37,15 +49,21 @@ function HomePage() {
 
    return (
       <HomeLayouts page="home">
-         <h2 className="text-left">Recommended Jobs</h2>
-         <Slider {...slickSettings} className="px-4 mx-4">
-            {[1, 2, 3, 4, 5].map((item) => (
-               <div key={item}>
-                  <JobCard />
-               </div>
-            ))}
-         </Slider>
-         <hr />
+         {!!recommendedJobs && !!recommendedJobs.length && (
+            <>
+               <h2 className="text-left">Recommended Jobs</h2>
+               <Slider {...slickSettings} className="px-4 mx-4">
+                  {recommendedJobs.map((job) => (
+                     <div key={job.id}>
+                        <JobCard job={job} />
+                     </div>
+                  ))}
+               </Slider>
+
+               <hr />
+            </>
+         )}
+
          <h2 className="text-left">Recent Jobs</h2>
          <div className="d-flex flex-wrap justify-content-start">
             {recentJobs.map((job) => {

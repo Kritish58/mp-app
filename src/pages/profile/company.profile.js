@@ -1,5 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import parser from 'html-react-parser';
+import Slider from 'react-slick';
+
+import { slickSettings } from '../../utils/slick.settings';
 import CreateJobModal from '../../components/profile/company/createJobModal';
 import CompanyLayouts from '../../layouts/company.profile.layouts';
 import { getDecoded, getToken } from '../../auth/auth.states';
@@ -9,6 +13,7 @@ import JobCard from '../../components/jobs/Card';
 
 const CompanyProfile = observer(() => {
    const [showModal, setShowModal] = useState(false);
+   const [profile, setProfile] = useState(null);
 
    useEffect(() => {
       // console.log(getDecoded());
@@ -22,6 +27,7 @@ const CompanyProfile = observer(() => {
          })
          .then((res) => {
             console.log(res);
+            setProfile(res.data);
          })
          .catch((err) => {
             console.log(err);
@@ -35,26 +41,35 @@ const CompanyProfile = observer(() => {
          <Row className="my-4 flex-wrap">
             <Col xs={12} md={6} className="p-2">
                <img src="/company-logo.png" alt="company logo" height="200" />
-               <h1 style={{ fontWeight: 300 }}>Company Name</h1>
-               <small>company address</small>
+               <h1 style={{ fontWeight: 300 }}>{profile?.user?.name}</h1>
             </Col>
             <Col xs={12} md={6} className="p-3 text-left">
                <div className="my-2">
-                  <h5 className="my-0">Name</h5>
-                  <small>Maze Runner</small>
+                  <h5 className="my-0 text-muted">
+                     <span>Name</span>
+                  </h5>
+                  <small>
+                     <i className="bx bx-building"></i> {profile?.user?.name}
+                  </small>
                </div>
                <div className="my-2">
-                  <h5 className="my-0">Email</h5>
-                  <small>company@gmail.com</small>
+                  <h5 className="my-0 text-muted">
+                     <span>Email </span>
+                  </h5>
+                  <small>
+                     <i className="bx bx-mail-send"></i> {profile?.user?.email}
+                  </small>
                </div>
                <div className="my-2">
-                  <h5 className="my-0">Address</h5>
-                  <small>dharan-15, shyam chowk, sunsari</small>
+                  <h5 className="my-0 text-muted">Address</h5>
+                  <small>
+                     <i className="bx bx-map"></i> {profile?.user?.address}
+                  </small>
                </div>
                <hr />
                <div className="my-2">
-                  <h5 className="my-0">About</h5>
-                  <small>Lorem ipsum dolor sit.</small>
+                  <h5 className="my-0 text-muted">About</h5>
+                  <small>{parser(profile?.user?.about ?? 'Not added')}</small>
                </div>
                <Button block size="lg" variant="success" onClick={() => setShowModal(true)}>
                   Add new job
@@ -75,16 +90,16 @@ const CompanyProfile = observer(() => {
 
          <hr />
          <h2 className="text-left">other jobs</h2>
-         <div className="d-flex flex-wrap justify-content-around">
-            {[1, 2, 3, 4, 5, 6].map((item, index) => {
-               return (
-                  <div className="mx-2" key={index}>
+
+         <div className="mb-5">
+            <Slider {...slickSettings} className="px-4 mx-4">
+               {[1, 2, 3, 4, 5].map((item) => (
+                  <div key={item}>
                      <JobCard />
                   </div>
-               );
-            })}
+               ))}
+            </Slider>
          </div>
-         <Button variant="outline-dark">Load more</Button>
 
          <CreateJobModal showModal={showModal} setShowModal={setShowModal} />
       </CompanyLayouts>

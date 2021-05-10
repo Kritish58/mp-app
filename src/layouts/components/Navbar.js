@@ -25,7 +25,7 @@ function NavbarComponent(props) {
    };
 
    const visitProfile = () => {
-      history.push(`/profile/${getDecoded()?.roles}/${getDecoded()?.id}`);
+      history.push(`/profile/${getDecoded()?.role}/${getDecoded()?.id}`);
    };
 
    const goHome = () => {

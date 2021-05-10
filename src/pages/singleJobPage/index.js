@@ -16,6 +16,7 @@ import { getToken } from '../../auth/auth.states';
 function SingleJobPage() {
    const [isApplying, setIsApplying] = useState(false);
    const [job, setJob] = useState(null);
+   const [recentJobs, setRecentJobs] = useState(null);
 
    const params = useParams();
 
@@ -29,6 +30,18 @@ function SingleJobPage() {
          .catch((err) => {
             console.log(err);
             console.log(err.resposne);
+         })
+         .finally();
+
+      axios
+         .get('/api/jobs', { headers: { Authorization: getToken() } })
+         .then((res) => {
+            console.log(res);
+            setRecentJobs(res.data);
+         })
+         .catch((err) => {
+            console.log(err);
+            console.log(err.response);
          })
          .finally();
       return () => {};
@@ -64,7 +77,7 @@ function SingleJobPage() {
          <div className="mb-4 ">
             <Row className="my-4 flex-wrap">
                <Col sm={12} md={8} className="p-3">
-                  <h6 className="lead">{job?.title}</h6>
+                  <h6 className="lead">{job?.title ?? 'job title'}</h6>
                   <Row className="flex-wrap">
                      <Col xs={4} className="my-3">
                         <div>
@@ -80,11 +93,11 @@ function SingleJobPage() {
                            <h6 className="my-0 text-muted small">Expertise</h6>
                         </div>
                         <div xs={9}>
-                           {job?.seniority_level
-                              ?.split(',')
-                              ?.map((item, index) => (
-                                 <span className="small mr-1 badge badge-info text-light">{item}</span>
-                              )) ?? 'unavailable'}
+                           {job?.seniority_level?.split(',')?.map((item, index) => (
+                              <span className="small mr-1 badge badge-info text-light" key={index}>
+                                 {item}
+                              </span>
+                           )) ?? 'unavailable'}
                         </div>
                      </Col>
 
@@ -94,11 +107,11 @@ function SingleJobPage() {
                         </div>
                         <div xs={9}>
                            {' '}
-                           {job?.emp_type
-                              ?.split(',')
-                              ?.map((item, index) => (
-                                 <span className="small mr-1 badge badge-info text-light">{item}</span>
-                              )) ?? 'unavailable'}
+                           {job?.emp_type?.split(',')?.map((item, index) => (
+                              <span className="small mr-1 badge badge-info text-light" key={index}>
+                                 {item}
+                              </span>
+                           )) ?? 'unavailable'}
                         </div>
                      </Col>
                      <Col xs={4} className="my-3">
@@ -163,11 +176,11 @@ function SingleJobPage() {
             </Row>
             <hr />
 
-            <h2>similar jobs</h2>
+            <h2>recent jobs</h2>
             <Slider {...slickSettings} className="px-4 mx-4">
-               {[1, 2, 3, 4, 5].map((item) => (
-                  <div key={item}>
-                     <JobCard />
+               {recentJobs?.map((job) => (
+                  <div key={job.id}>
+                     <JobCard job={job} />
                   </div>
                ))}
             </Slider>

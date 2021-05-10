@@ -45,3 +45,8 @@ export const getLoginState = () => {
    }
    return isLoggedIn;
 };
+
+export const setLoginState = (bool) => {
+   isLoggedIn = bool;
+   return;
+};

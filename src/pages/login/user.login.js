@@ -5,7 +5,7 @@ import { Button, Form } from 'react-bootstrap';
 import { Link, useHistory } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import styled from 'styled-components';
-import { storeDecoded, storeToken } from '../../auth/auth.states';
+import { setLoginState, storeDecoded, storeToken } from '../../auth/auth.states';
 import AuthLayouts from '../../layouts/auth.layouts';
 
 const FormContainer = styled.div`
@@ -36,6 +36,7 @@ const UserLogin = () => {
             storeToken(res?.data?.token);
             const decoded = jwtDecode(res?.data?.token);
             storeDecoded(decoded);
+            setLoginState(true);
             history.push('/');
          })
          .catch((err) => {
