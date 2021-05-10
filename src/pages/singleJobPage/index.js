@@ -11,9 +11,16 @@ import JobCard from '../../components/jobs/Card';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import { toast } from 'react-toastify';
-import { getToken } from '../../auth/auth.states';
+import { getDecoded, getToken } from '../../auth/auth.states';
+import EditJob from '../../components/jobs/editJob.modal';
+import ViewApplicants from '../../components/jobs/viewApplicants.modal';
+import ViewShortListed from '../../components/jobs/viewShortlisted.modal';
 
 function SingleJobPage() {
+   const [showEditModal, setEditModal] = useState(false);
+   const [showApplicantsModal, setApplicantsModal] = useState(false);
+   const [showShortsModal, setShortsModal] = useState(false);
+
    const [isApplying, setIsApplying] = useState(false);
    const [job, setJob] = useState(null);
    const [recentJobs, setRecentJobs] = useState(null);
@@ -156,10 +163,25 @@ function SingleJobPage() {
                      <h6 className="my-0 text-muted">Description</h6>
                      {parse(job?.description ?? '<p>No description added</p>')}
                   </div>
-                  <Button block disabled={isApplying} size="lg" variant="success" onClick={() => applyJob()}>
-                     {!isApplying && <span>Apply</span>}
-                     {!!isApplying && <span>processing...</span>}
-                  </Button>
+                  {getDecoded()?.role === 'user' && (
+                     <Button block disabled={isApplying} size="lg" variant="success" onClick={() => applyJob()}>
+                        {!isApplying && <span>Apply</span>}
+                        {!!isApplying && <span>processing...</span>}
+                     </Button>
+                  )}
+                  {
+                     <>
+                        <Button size="" variant="success" onClick={() => setEditModal(true)}>
+                           <span>edit</span>
+                        </Button>
+                        <Button size="" className="mx-2" variant="dark" onClick={() => setApplicantsModal(true)}>
+                           <span>view applicants</span>
+                        </Button>
+                        <Button size="" variant="primary" onClick={() => setShortsModal(true)}>
+                           <span>view shortlisted</span>
+                        </Button>
+                     </>
+                  }
                </Col>
                <Col sm={12} md={4} className="p-2">
                   <Row className="flex-column align-items-center justify-content-end">
@@ -176,16 +198,24 @@ function SingleJobPage() {
             </Row>
             <hr />
 
-            <h2>recent jobs</h2>
-            <Slider {...slickSettings} className="px-4 mx-4">
-               {recentJobs?.map((job) => (
-                  <div key={job.id}>
-                     <JobCard job={job} />
-                  </div>
-               ))}
-            </Slider>
-            <hr />
+            {getDecoded()?.role === 'user' && (
+               <>
+                  <h2>recent jobs</h2>
+                  <Slider {...slickSettings} className="px-4 mx-4">
+                     {recentJobs?.map((job) => (
+                        <div key={job.id}>
+                           <JobCard job={job} />
+                        </div>
+                     ))}
+                  </Slider>
+                  <hr />
+               </>
+            )}
          </div>
+
+         <EditJob showEditModal={showEditModal} setEditModal={setEditModal} />
+         <ViewApplicants showApplicantsModal={showApplicantsModal} setApplicantsModal={setApplicantsModal} />
+         <ViewShortListed showShortsModal={showShortsModal} setShortsModal={setShortsModal} />
       </SingleJobPageLayouts>
    );
 }

@@ -54,7 +54,7 @@ function CreateJobModal(props) {
 
    const titleRef = useRef();
    const locationRef = useRef();
-   const applicantsRef = useRef();
+   // const applicantsRef = useRef();
    const salaryRef = useRef();
 
    const handleSubmit = (e) => {
@@ -67,7 +67,7 @@ function CreateJobModal(props) {
             {
                title: titleRef.current.value,
                location: locationRef.current.value,
-               total_applicants: applicantsRef.current.value,
+               // total_applicants: applicantsRef.current.value,
                industry: selectedIndustry?.map((ind) => ind?.value).toString(),
                seniority_level: selectedLevel?.map((lvl) => lvl?.value).toString(),
                emp_type: selectedEmpType?.map((emp) => emp?.value).toString(),
@@ -122,10 +122,10 @@ function CreateJobModal(props) {
                         placeholder="dharan-15, shyam chowk, sunsari"></Form.Control>
                   </Form.Group>
 
-                  <Form.Group>
+                  {/* <Form.Group>
                      <Form.Label>Total applicants</Form.Label>
                      <Form.Control ref={applicantsRef} type="number" placeholder="10"></Form.Control>
-                  </Form.Group>
+                  </Form.Group> */}
 
                   <Form.Group>
                      <Form.Label>Salary</Form.Label>

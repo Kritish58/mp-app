@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import parser from 'html-react-parser';
-import Slider from 'react-slick';
+// import Slider from 'react-slick';
 
-import { slickSettings } from '../../utils/slick.settings';
+// import { slickSettings } from '../../utils/slick.settings';
 import CreateJobModal from '../../components/profile/company/createJobModal';
 import CompanyLayouts from '../../layouts/company.profile.layouts';
 import { getDecoded, getToken } from '../../auth/auth.states';
@@ -14,6 +14,7 @@ import JobCard from '../../components/jobs/Card';
 const CompanyProfile = observer(() => {
    const [showModal, setShowModal] = useState(false);
    const [profile, setProfile] = useState(null);
+   const [postedJobs, setPostedJobs] = useState([]);
 
    useEffect(() => {
       // console.log(getDecoded());
@@ -33,8 +34,23 @@ const CompanyProfile = observer(() => {
             console.log(err);
             console.log(err.response);
          });
+
+      fetchAppliedJobs();
+
       return () => {};
    }, []);
+
+   const fetchAppliedJobs = () => {
+      axios
+         .get('/api/jobs', { headers: { Authorization: getToken() } })
+         .then((res) => {
+            console.log(res);
+            setPostedJobs(res.data);
+         })
+         .catch((err) => {
+            console.log(err);
+         });
+   };
 
    return (
       <CompanyLayouts page="company-profile">
@@ -79,27 +95,32 @@ const CompanyProfile = observer(() => {
          <hr />
          <h2 className="text-left">Jobs Posted</h2>
          <div className="d-flex flex-wrap justify-content-start">
-            {[1, 2, 3, 4, 5, 6].map((item, index) => {
+            {postedJobs?.map((job) => {
                return (
-                  <div className="mx-2" key={index}>
-                     <JobCard />
+                  <div className="mx-2" key={job.id}>
+                     <JobCard job={job} />
                   </div>
                );
             })}
          </div>
+         {!postedJobs.length && (
+            <div className="p-4 w-100 bg-light text-center" style={{ border: 'dashed 1px #aaa' }}>
+               <span className="text-muted lead">No jobs posted</span>
+            </div>
+         )}
 
          <hr />
-         <h2 className="text-left">other jobs</h2>
+         {/* <h2 className="text-left">other jobs</h2>
 
          <div className="mb-5">
             <Slider {...slickSettings} className="px-4 mx-4">
-               {[1, 2, 3, 4, 5].map((item) => (
-                  <div key={item}>
-                     <JobCard />
+               {postedJobs?.map((job) => (
+                  <div key={job.id}>
+                     <JobCard job={job} />
                   </div>
                ))}
             </Slider>
-         </div>
+         </div> */}
 
          <CreateJobModal showModal={showModal} setShowModal={setShowModal} />
       </CompanyLayouts>
