@@ -23,10 +23,10 @@ const CompanyProfile = observer(() => {
       // console.log(getDecoded());
       // console.log(getToken());
 
-      if (getDecoded()?.role !== 'company') {
-         history.push('/login');
-         return;
-      }
+      // if (getDecoded()?.role !== 'company') {
+      //    history.push('/login');
+      //    return;
+      // }
 
       axios
          .get(`/api/profiles/${getDecoded()?.id}`, {

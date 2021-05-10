@@ -2,12 +2,14 @@ let token;
 let decoded;
 let isLoggedIn;
 
-export const storeDecoded = (decoded) => {
-   localStorage.setItem('decoded', JSON.stringify(decoded));
+export const storeDecoded = (dec) => {
+   decoded = dec;
+   localStorage.setItem('decoded', JSON.stringify(dec));
 };
 
-export const storeToken = (token) => {
-   localStorage.setItem('token', 'Bearer ' + token);
+export const storeToken = (tkn) => {
+   token = tkn;
+   localStorage.setItem('token', 'Bearer ' + tkn);
 };
 
 export const getDecoded = () => {
