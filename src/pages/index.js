@@ -6,8 +6,10 @@ function HomePage() {
    const history = useHistory();
 
    useEffect(() => {
+      console.log(getDecoded());
+
       if (doesTokenExist()) {
-         history.push(`/profile/${getDecoded()?.role}/${getDecoded()?.id}`);
+         history.push(`/profile/${getDecoded()?.roles}/${getDecoded()?.id}`);
          return;
       } else {
          history.push('/login');

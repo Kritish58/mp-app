@@ -19,6 +19,7 @@ function UserSignup() {
    const nameRef = useRef();
    const emailRef = useRef();
    const passwordRef = useRef();
+   const addressRef = useRef();
 
    const history = useHistory();
 
@@ -31,6 +32,7 @@ function UserSignup() {
             name: nameRef.current.value,
             email: emailRef.current.value,
             password: passwordRef.current.value,
+            address: addressRef.current.value,
             role: 'user',
          })
          .then((res) => {
@@ -48,6 +50,7 @@ function UserSignup() {
             toast.error(err?.response?.data?.name);
             toast.error(err?.response?.data?.email);
             toast.error(err?.response?.data?.password);
+            toast.error(err?.response?.data?.address);
             toast.error(err?.response?.data?.error);
          })
          .finally(() => {
@@ -63,6 +66,10 @@ function UserSignup() {
                <Form.Group>
                   <Form.Text>Full Name</Form.Text>
                   <Form.Control ref={nameRef} type="text" placeholder="type your full name"></Form.Control>
+               </Form.Group>
+               <Form.Group>
+                  <Form.Text>Address</Form.Text>
+                  <Form.Control ref={addressRef} type="text" placeholder="type your address"></Form.Control>
                </Form.Group>
                <Form.Group>
                   <Form.Text>Email</Form.Text>

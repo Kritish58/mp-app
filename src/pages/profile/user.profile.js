@@ -3,6 +3,7 @@ import axios from 'axios';
 import UserLayouts from '../../layouts/user.profile.layouts';
 import { getToken, getDecoded } from '../../auth/auth.states';
 import { Button, Col, Row } from 'react-bootstrap';
+import JobCard from '../../components/jobs/Card';
 
 function UserProfile() {
    useEffect(() => {
@@ -48,6 +49,20 @@ function UserProfile() {
                </div>
             </Col>
          </Row>
+         <hr />
+         <h3>Applied Jobs</h3>
+         <div className="d-flex flex-wrap justify-content-around">
+            {[1, 2, 3].map((item) => {
+               return (
+                  <div key={item}>
+                     <JobCard />
+                  </div>
+               );
+            })}
+            <div className="p-4 w-100 bg-light text-center" style={{ border: 'dashed 1px #aaa' }}>
+               <span className="text-muted lead">No Jobs Applied</span>
+            </div>
+         </div>
          <hr />
          <Row>
             <Col xs={12} lg={6} className="p-2 ">

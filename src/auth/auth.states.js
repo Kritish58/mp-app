@@ -6,7 +6,7 @@ export const storeDecoded = (decoded) => {
 };
 
 export const storeToken = (token) => {
-   localStorage.setItem('token', token);
+   localStorage.setItem('token', 'Bearer ' + token);
 };
 
 export const getDecoded = () => {

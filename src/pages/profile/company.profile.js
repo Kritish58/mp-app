@@ -4,7 +4,8 @@ import CreateJobModal from '../../components/profile/company/createJobModal';
 import CompanyLayouts from '../../layouts/company.profile.layouts';
 import { getDecoded, getToken } from '../../auth/auth.states';
 import { observer } from 'mobx-react';
-import { Button, Card, Col, Row } from 'react-bootstrap';
+import { Button, Col, Row } from 'react-bootstrap';
+import JobCard from '../../components/jobs/Card';
 
 const CompanyProfile = observer(() => {
    const [showModal, setShowModal] = useState(false);
@@ -64,34 +65,7 @@ const CompanyProfile = observer(() => {
          <h2 className="text-left">Jobs Posted</h2>
          <div className="d-flex flex-wrap justify-content-around">
             {[1, 2, 3, 4, 5, 6].map((item) => {
-               return (
-                  <Card className="my-4 my-lg-1 my-xl-4 shadow-sm" style={{ maxWidth: 300, minWidth: 300 }} key={item}>
-                     <div className="">
-                        <Card.Img variant="top" src="/company-logo.png" style={{ maxHeight: 200, maxWidth: 200 }} />
-                     </div>
-                     <Card.Body className="text-left">
-                        <Card.Title>Job Title</Card.Title>
-                        <small className="d-block">
-                           <em>company: </em> Job Company
-                        </small>
-                        <small className="d-block">
-                           <em>location: </em> Job Location
-                        </small>
-                        <small className="d-block">
-                           <em>industry: </em> Job Industry
-                        </small>
-                        <small className="d-block">
-                           <em>expertise: </em> Seniority Level
-                        </small>
-                        <Button
-                           className="mt-2 d-flex justify-content-center align-items-center"
-                           variant="primary"
-                           block>
-                           <p style={{ marginBottom: 3 }}>view</p> <i className="ml-2 bx bx-arrow-to-right"></i>
-                        </Button>
-                     </Card.Body>
-                  </Card>
-               );
+               return <JobCard />;
             })}
          </div>
 
@@ -99,34 +73,7 @@ const CompanyProfile = observer(() => {
          <h2 className="text-left">other jobs</h2>
          <div className="d-flex flex-wrap justify-content-around">
             {[1, 2, 3, 4, 5, 6].map((item) => {
-               return (
-                  <Card className="my-4 my-lg-1 my-xl-4 shadow-sm" style={{ maxWidth: 300, minWidth: 300 }} key={item}>
-                     <div className="">
-                        <Card.Img variant="top" src="/company-logo.png" style={{ maxHeight: 200, maxWidth: 200 }} />
-                     </div>
-                     <Card.Body className="text-left">
-                        <Card.Title>Job Title</Card.Title>
-                        <small className="d-block">
-                           <em>company: </em> Job Company
-                        </small>
-                        <small className="d-block">
-                           <em>location: </em> Job Location
-                        </small>
-                        <small className="d-block">
-                           <em>industry: </em> Job Industry
-                        </small>
-                        <small className="d-block">
-                           <em>experience: </em> Seniority Level
-                        </small>
-                        <Button
-                           className="mt-2 d-flex justify-content-center align-items-center"
-                           variant="primary"
-                           block>
-                           <p style={{ marginBottom: 3 }}>view</p> <i className="ml-2 bx bx-arrow-to-right"></i>
-                        </Button>
-                     </Card.Body>
-                  </Card>
-               );
+               return <JobCard />;
             })}
          </div>
          <Button variant="outline-dark">Load more</Button>
