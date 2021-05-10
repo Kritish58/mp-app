@@ -6,7 +6,7 @@ import { Button, Col, Row } from 'react-bootstrap';
 import JobCard from '../../components/jobs/Card';
 
 function UserProfile() {
-   const [user, setUser] = useState(null);
+   const [profile, setProfile] = useState(null);
    const [appJobs, setAppJobs] = useState([]);
 
    useEffect(() => {
@@ -15,13 +15,13 @@ function UserProfile() {
 
       const asyncFunc = async () => {
          try {
-            const profile = await axios.get(`/api/profiles/${getDecoded()?.id}`, {
+            const prof = await axios.get(`/api/profiles/${getDecoded()?.id}`, {
                headers: {
                   Authorization: getToken(),
                },
             });
-            console.log(profile);
-            setUser(profile.data.user);
+            console.log('Profile', prof);
+            setProfile(prof.data.user);
 
             const appliedJobs = await axios.get('/api/applied-jobs', { headers: { Authorization: getToken() } });
             console.log('Applied Jobs', appliedJobs);
@@ -43,21 +43,21 @@ function UserProfile() {
          <Row className="my-4">
             <Col xs={12} md={6} className="text-center">
                <img src="/user-profile.png" alt="profile" height="200" width="200" style={{ borderRadius: '100%' }} />
-               <p className="lead">{user?.name ?? 'undefined'}</p>
+               <p className="lead">{profile?.user?.name ?? 'undefined'}</p>
             </Col>
             <Col xs={12} md={6}>
                <h2 className="mb-4">Other details</h2>
                <div className="my-2">
                   <h5 className="my-0">Name</h5>
-                  <small>{user?.name ?? 'undefined'}</small>
+                  <small>{profile?.user?.name ?? 'undefined'}</small>
                </div>
                <div className="my-2">
                   <h5 className="my-0">Email</h5>
-                  <small>{user?.email ?? 'undefined'}</small>
+                  <small>{profile?.user?.email ?? 'undefined'}</small>
                </div>
                <div className="my-2">
                   <h5 className="my-0">Address</h5>
-                  <small>{user?.address ?? 'undefined'}</small>
+                  <small>{profile?.user?.address ?? 'undefined'}</small>
                </div>
             </Col>
          </Row>
