@@ -15,7 +15,9 @@ function HomeLayouts(props) {
                animate={{ opacity: 1 }}
                exit={{ opacity: 0 }}
                transition={{ duration: 0.2 }}>
-               <div className="text-center my-4">{props.children}</div>
+               <div style={{ minHeight: '70vh' }} className="text-center my-4">
+                  {props.children}
+               </div>
             </motion.div>
          </Container>
          <Footer />
