@@ -21,7 +21,7 @@ function UserProfile() {
                },
             });
             console.log('Profile', prof);
-            setProfile(prof.data.user);
+            setProfile(prof.data);
 
             const appliedJobs = await axios.get('/api/applied-jobs', { headers: { Authorization: getToken() } });
             console.log('Applied Jobs', appliedJobs);
@@ -39,7 +39,7 @@ function UserProfile() {
    }, []);
 
    return (
-      <UserLayouts>
+      <UserLayouts page="user-profile">
          <Row className="my-4">
             <Col xs={12} md={6} className="text-center">
                <img src="/user-profile.png" alt="profile" height="200" width="200" style={{ borderRadius: '100%' }} />

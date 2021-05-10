@@ -1,8 +1,8 @@
 import React from 'react';
 import { Link, useHistory } from 'react-router-dom';
-import { Button, Container, Dropdown, FormControl, InputGroup, Row } from 'react-bootstrap';
+import { Button, Col, Container, Dropdown, FormControl, InputGroup, Row } from 'react-bootstrap';
 import styled from 'styled-components';
-import { handleLogout } from '../../auth/auth.states';
+import { getDecoded, handleLogout } from '../../auth/auth.states';
 
 const NavbarContainer = styled.div`
    width: 100%;
@@ -12,14 +12,24 @@ const NavbarContainer = styled.div`
    border-bottom-right-radius: 20%;
 `;
 
-function NavbarComponent() {
+function NavbarComponent(props) {
+   const { page } = props;
+
    const history = useHistory();
 
    const logout = () => {
       handleLogout();
-      if (history?.location?.pathname?.includes('/profile/company')) history.push('/login/company');
+      if (page === 'company-profile') history.push('/login/company');
       else history.push('/login');
       return;
+   };
+
+   const visitProfile = () => {
+      history.push(`/profile/${getDecoded()?.roles}/${getDecoded()?.id}`);
+   };
+
+   const goHome = () => {
+      history.push('/');
    };
 
    return (
@@ -35,9 +45,39 @@ function NavbarComponent() {
             <Dropdown.Menu>
                <Dropdown.Item onClick={() => logout()}>
                   <Row className="align-items-center justify-content-center">
-                     <i className="mr-2 bx bx-log-out"></i> <span>Log out</span>
+                     <Col sm={3}>
+                        <i className="mr-2 bx bx-log-out"></i>
+                     </Col>
+                     <Col sm={9}>
+                        <span>log out</span>
+                     </Col>
                   </Row>
                </Dropdown.Item>
+               {page && page === 'home' && (
+                  <Dropdown.Item onClick={() => visitProfile()}>
+                     <Row className="align-items-center justify-content-center">
+                        <Col sm={3}>
+                           <i className="bx bx-user"></i>
+                        </Col>
+                        <Col sm={9}>
+                           <span>profile</span>
+                        </Col>
+                     </Row>
+                  </Dropdown.Item>
+               )}
+
+               {(page === 'user-profile' || page === 'company-profile') && (
+                  <Dropdown.Item onClick={() => goHome()}>
+                     <Row className="align-items-center justify-content-center">
+                        <Col sm={3}>
+                           <i className="bx bx-home-alt"></i>
+                        </Col>
+                        <Col sm={9}>
+                           <span>home</span>
+                        </Col>
+                     </Row>
+                  </Dropdown.Item>
+               )}
             </Dropdown.Menu>
          </Dropdown>
 

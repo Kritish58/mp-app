@@ -5,9 +5,11 @@ import Footer from './components/Footer';
 import NavbarComponent from './components/Navbar';
 
 function CompanyLayouts(props) {
+   const { page } = props;
+
    return (
       <>
-         <NavbarComponent />
+         <NavbarComponent page={page} />
          <Container>
             <motion.div
                initial={{ opacity: 0 }}

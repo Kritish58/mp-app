@@ -31,7 +31,7 @@ const CompanyProfile = observer(() => {
    }, []);
 
    return (
-      <CompanyLayouts>
+      <CompanyLayouts page="company-profile">
          <Row className="my-4 flex-wrap">
             <Col xs={12} md={6} className="p-2">
                <img src="/company-logo.png" alt="company logo" height="200" />
