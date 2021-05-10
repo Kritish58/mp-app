@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import axios from 'axios';
 import UserLayouts from '../../layouts/user.profile.layouts';
 import { getToken, getDecoded } from '../../auth/auth.states';
-import { Col, Row } from 'react-bootstrap';
+import { Button, Col, Row } from 'react-bootstrap';
 
 function UserProfile() {
    useEffect(() => {
@@ -50,28 +50,68 @@ function UserProfile() {
          </Row>
          <hr />
          <Row>
-            <Col className="p-3">
-               <h2>Skills</h2>
-               <div className="p-2 my-2">
-                  <div className="lead">React</div>
-                  <small>
-                     Lorem ipsum dolor sit amet consectetur adipisicing elit. Nihil eaque tempore magni officiis odio
-                     perferendis aspernatur maxime delectus in fugiat!
-                  </small>
+            <Col xs={12} lg={6} className="p-2 ">
+               <div className="border rounded shadow-sm p-3">
+                  <div className="d-flex justify-content-between">
+                     <h3>Experience</h3>
+                     <div>
+                        <Button variant="light" size="sm">
+                           <i className="bx bx-pencil"></i>
+                        </Button>
+                     </div>
+                  </div>
+                  <div>
+                     <div>
+                        <em className="text-muted">Company: </em> Company Name
+                     </div>
+                     <div>
+                        <em className="text-muted">Designation: </em> React Developer
+                     </div>
+                     <div>
+                        <em className="text-muted">Duration: </em> May - June 2017
+                     </div>
+                  </div>
                </div>
-               <div className="p-2 my-2">
-                  <div className="lead">React</div>
-                  <small>
-                     Lorem ipsum dolor sit amet consectetur adipisicing elit. Nihil eaque tempore magni officiis odio
-                     perferendis aspernatur maxime delectus in fugiat!
-                  </small>
+            </Col>
+            <Col xs={{ span: 12, order: 'first' }} lg={{ span: 6, order: 1 }} className="p-2 ">
+               <div className="border rounded shadow-sm p-3">
+                  <div className="d-flex justify-content-between">
+                     <h3>Skills</h3>
+                     <div>
+                        <Button variant="light" size="sm">
+                           <i className="bx bx-pencil"></i>
+                        </Button>
+                     </div>
+                  </div>
+                  <div>
+                     <span className="badge bg-primary text-light mx-1">React</span>
+                     <span className="badge bg-primary text-light mx-1">Database</span>
+                     <span className="badge bg-primary text-light mx-1">Programming</span>
+                  </div>
                </div>
-               <div className="p-2 my-2">
-                  <div className="lead">React</div>
-                  <small>
-                     Lorem ipsum dolor sit amet consectetur adipisicing elit. Nihil eaque tempore magni officiis odio
-                     perferendis aspernatur maxime delectus in fugiat!
-                  </small>
+            </Col>
+
+            <Col xs={12} lg={{ span: 6, order: 2 }} className="p-2 ">
+               <div className="border rounded shadow-sm p-3">
+                  <div className="d-flex justify-content-between">
+                     <h3>Education</h3>
+                     <div>
+                        <Button variant="light" size="sm">
+                           <i className="bx bx-pencil"></i>
+                        </Button>
+                     </div>
+                  </div>
+                  <div>
+                     <div>
+                        <em className="text-muted">University: </em> University Name
+                     </div>
+                     <div>
+                        <em className="text-muted">Degree: </em> React Developer
+                     </div>
+                     <div>
+                        <em className="text-muted">Duration: </em> May - June 2017
+                     </div>
+                  </div>
                </div>
             </Col>
          </Row>
