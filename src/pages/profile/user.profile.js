@@ -63,10 +63,10 @@ function UserProfile() {
          </Row>
          <hr />
          <h3>Applied Jobs</h3>
-         <div className="d-flex flex-wrap justify-content-around">
+         <div className="d-flex flex-wrap justify-content-start">
             {appJobs.map((job, index) => {
                return (
-                  <div key={index}>
+                  <div className="mx-2" key={index}>
                      <JobCard />
                   </div>
                );

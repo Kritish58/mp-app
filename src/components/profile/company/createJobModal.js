@@ -28,7 +28,7 @@ const levelOpts = [
 ];
 
 const industryOpts = [
-   { value: 'software', label: 'software' },
+   { value: 'software development', label: 'software development' },
    { value: 'networking', label: 'networking' },
    { value: 'cyber security', label: 'cyber security' },
    { value: 'internet of things (iot)', label: 'internet of things (iot)' },

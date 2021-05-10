@@ -1,20 +1,36 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import {} from 'react-bootstrap';
 import { useHistory } from 'react-router-dom';
 import Slider from 'react-slick';
 
 import { slickSettings } from '../utils/slick.settings';
-import { getLoginState } from '../auth/auth.states';
+import { getLoginState, getToken } from '../auth/auth.states';
 import JobCard from '../components/jobs/Card';
 import HomeLayouts from '../layouts/home.layouts';
+import axios from 'axios';
 
 function HomePage() {
    const history = useHistory();
+   const [recentJobs, setRecentJobs] = useState([]);
 
    useEffect(() => {
       if (!getLoginState()) {
          history.push('/login');
+         return;
       }
+
+      const asyncFunc = async () => {
+         try {
+            const rcjobs = await axios.get('/api/jobs', { headers: { authorization: getToken() } });
+            console.log(rcjobs);
+            setRecentJobs(rcjobs.data);
+         } catch (err) {
+            console.log(err);
+            console.log(err.response);
+         }
+      };
+
+      asyncFunc();
 
       return () => {};
    }, [history]);
@@ -32,10 +48,10 @@ function HomePage() {
          <hr />
          <h2 className="text-left">Recent Jobs</h2>
          <div className="d-flex flex-wrap justify-content-start">
-            {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((item) => {
+            {recentJobs.map((job) => {
                return (
-                  <div className="mx-2" key={item}>
-                     <JobCard />
+                  <div className="mx-2" key={job.id}>
+                     <JobCard job={job} />
                   </div>
                );
             })}
