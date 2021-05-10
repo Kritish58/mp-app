@@ -12,7 +12,7 @@ function AuthLayots(props) {
                animate={{ opacity: 1, marginLeft: 0 }}
                exit={{ opacity: 0, marginLeft: '-100px' }}
                transition={{ duration: 0.2 }}>
-               <div style={{ minHeight: '100vh' }}>
+               <div style={{ minHeight: '90vh' }}>
                   <div className="text-center pt-4">
                      <img src="/logo.png" alt="logo" height="100" />
                   </div>
