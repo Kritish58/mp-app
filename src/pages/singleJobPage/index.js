@@ -190,10 +190,8 @@ function SingleJobPage() {
                <Col sm={12} md={4} className="p-2">
                   <Row className="flex-column align-items-center justify-content-end">
                      <img src="/company-logo.png" alt="company logo" height="200" width="250" />
-                     <h2 style={{ fontWeight: 300 }}>Company Name</h2>
-                     <div className="d-flex align-items-center">
-                        <i className="mr-2 text-muted bx bx-building"></i> <span>company name</span>
-                     </div>
+                     <h2 style={{ fontWeight: 300 }}>{job?.company?.name}</h2>
+
                      <div className="d-flex align-items-center">
                         <i className="mr-2 text-muted bx bx-mail-send"></i> <span>company@gmail.com</span>
                      </div>

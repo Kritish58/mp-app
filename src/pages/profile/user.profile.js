@@ -17,10 +17,10 @@ function UserProfile() {
       // console.log(getDecoded());
       // console.log(getToken());
 
-      if (getDecoded()?.role !== 'user') {
-         history.push('/login');
-         return;
-      }
+      // if (getDecoded()?.role !== 'user') {
+      //    history.push('/login');
+      //    return;
+      // }
 
       const asyncFunc = async () => {
          try {

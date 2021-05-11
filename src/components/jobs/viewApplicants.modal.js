@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, { useEffect } from 'react';
-import { Button, Modal } from 'react-bootstrap';
+import { Button, Col, Modal, Row } from 'react-bootstrap';
 import { getToken } from '../../auth/auth.states';
 
 function ViewApplicants(props) {
@@ -32,7 +32,20 @@ function ViewApplicants(props) {
                <Modal.Title>All applicants</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-               <h2>Modal body</h2>
+               {[1, 2, 3, 4, 5, 6].map((item, index) => {
+                  return (
+                     <div>
+                        <Row className="p-2 justify-content-between align-items-center">
+                           <Col className="lead">Applicant Name</Col>
+                           <Col>applied position</Col>
+                           <Col>
+                              <Button>view profile</Button>
+                           </Col>
+                        </Row>
+                        {index < 5 && <hr />}
+                     </div>
+                  );
+               })}
             </Modal.Body>
             <Modal.Footer>
                <Button variant="secondary" onClick={() => setApplicantsModal(false)}>

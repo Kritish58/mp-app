@@ -90,14 +90,16 @@ function NavbarComponent(props) {
                </Link>
                <div>
                   <div className="small text-light">Start your new career, search for jobs companies and people</div>
-                  <InputGroup className="mb-3">
-                     <FormControl placeholder="job search" size="lg" />
-                     <InputGroup.Append>
-                        <Button size="lg" variant="success">
-                           <i className="bx bx-search"></i>
-                        </Button>
-                     </InputGroup.Append>
-                  </InputGroup>
+                  <Link to="/search" style={{ textDecoration: 'none' }}>
+                     <InputGroup className="mb-3">
+                        <FormControl style={{ cursor: 'pointer' }} placeholder="job search" size="lg" />
+                        <InputGroup.Append>
+                           <Button size="lg" variant="success">
+                              <i className="bx bx-search"></i>
+                           </Button>
+                        </InputGroup.Append>
+                     </InputGroup>
+                  </Link>
                </div>
             </div>
          </Container>

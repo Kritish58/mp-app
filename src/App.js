@@ -15,6 +15,7 @@ import UserSignup from './pages/signup/user.signup';
 import SingleJobPage from './pages/singleJobPage';
 import setBaseUrl from './axios/set.base.url';
 import { observer } from 'mobx-react';
+import Searches from './pages/searches';
 
 const App = observer(() => {
    const location = useLocation();
@@ -70,6 +71,9 @@ const App = observer(() => {
                   </Route>
                   <Route path="/jobs/:job_id">
                      <SingleJobPage />
+                  </Route>
+                  <Route path="/search">
+                     <Searches />
                   </Route>
                   <Route>
                      <div>
