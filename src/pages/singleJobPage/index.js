@@ -130,7 +130,6 @@ function SingleJobPage() {
                            <h6 className="my-0 text-muted small">Employment type</h6>
                         </div>
                         <div xs={9}>
-                           {' '}
                            {job?.emp_type?.split(',')?.map((item, index) => (
                               <span className="small mr-1 badge badge-info text-light" key={index}>
                                  {item}
@@ -173,6 +172,19 @@ function SingleJobPage() {
                            <span className="small">{moment(job?.endDate).format('MMM Do YYYY') ?? 'unavailable'}</span>
                         </div>
                      </Col>
+
+                     <Col xs={4} className="my-3">
+                        <div xs={3}>
+                           <h6 className="my-0 text-muted small">Skills</h6>
+                        </div>
+                        <div xs={9}>
+                           {job?.skills?.map((item) => (
+                              <span className="small mr-1 badge badge-primary text-light" key={item._id}>
+                                 {item.name}
+                              </span>
+                           )) ?? 'unavailable'}
+                        </div>
+                     </Col>
                   </Row>
 
                   <hr />
@@ -202,7 +214,7 @@ function SingleJobPage() {
                   )}
                   {getDecoded()?.role === 'company' && (
                      <>
-                        <Button size="" variant="primary" onClick={() => setEditModal(true)}>
+                        <Button size="" variant="secondary" onClick={() => setEditModal(true)}>
                            <span>edit</span>
                         </Button>
                         {new Date(job?.endDate).getTime() > new Date().getTime() && (
