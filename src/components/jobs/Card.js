@@ -30,7 +30,7 @@ function JobCard({ job }) {
                </small>
             </div>
             <div className="p-2">
-               <Link to={`/jobs/${job?.id}`}>
+               <Link to={`/jobs/${job?.id ?? job?._id}`}>
                   <Button className=" d-flex justify-content-center align-items-center" variant="primary" block>
                      <p style={{ marginBottom: 3 }}>view</p> <i className="ml-2 bx bx-arrow-to-right"></i>
                   </Button>

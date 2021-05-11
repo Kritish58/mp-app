@@ -218,16 +218,16 @@ function SingleJobPage() {
                         <Button size="" variant="light" onClick={() => setEditModal(true)}>
                            <span>edit</span>
                         </Button>
-                        {new Date(job?.endDate).getTime() > new Date().getTime() && (
-                           <Button className="ml-2" variant="secondary" onClick={() => setApplicantsModal(true)}>
-                              <span>view applicants</span>
-                           </Button>
-                        )}
-                        {new Date(job?.endDate).getTime() <= new Date().getTime() && (
-                           <Button className="ml-2" variant="success" onClick={() => setShortsModal(true)}>
-                              <span>view shortlisted</span>
-                           </Button>
-                        )}
+                        {/* {new Date(job?.endDate).getTime() > new Date().getTime() && ( */}
+                        <Button className="ml-2" variant="secondary" onClick={() => setApplicantsModal(true)}>
+                           <span>view applicants</span>
+                        </Button>
+                        {/* // )} */}
+                        {/* {new Date(job?.endDate).getTime() <= new Date().getTime() && ( */}
+                        <Button className="ml-2" variant="success" onClick={() => setShortsModal(true)}>
+                           <span>view shortlisted</span>
+                        </Button>
+                        {/* )} */}
                      </>
                   )}
                </Col>

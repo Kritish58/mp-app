@@ -38,7 +38,7 @@ const UserLogin = () => {
                toast.error('invalid user');
                return;
             }
-            storeToken(res?.data?.token);
+            storeToken('Bearer ' + res?.data?.token);
             storeDecoded(decoded);
             setLoginState(true);
             history.push('/');

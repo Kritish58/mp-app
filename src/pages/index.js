@@ -57,9 +57,9 @@ function HomePage() {
             <>
                <h2 className="text-left">Recommended Jobs</h2>
                <Slider {...slickSettings} className="px-4 mx-4">
-                  {recommendedJobs.map((job) => (
-                     <div key={job.id}>
-                        <JobCard job={job} />
+                  {recommendedJobs.map((item, index) => (
+                     <div key={item?.id ?? index}>
+                        <JobCard job={item?.job} />
                      </div>
                   ))}
                </Slider>

@@ -14,10 +14,21 @@ function ViewShortListed(props) {
 
    useEffect(() => {
       axios
-         .get(`/api/shortlists/${job.id}`, { headers: { Authorization: getToken() } })
+         .get(`/api/jobs/${job?.id}/applied-users`, { headers: { Authorization: getToken() } })
          .then((res) => {
             console.log(res);
-            setShortList(res.data);
+            setShortList(res.data?.reverse());
+         })
+         .catch((err) => {
+            console.log(err);
+            console.log(err.response);
+         });
+
+      axios
+         .get(`/api/shortlists/${job.id}`, { headers: { Authorization: getToken() } })
+         .then((res) => {
+            console.log('Shortlist api is not used', res);
+            // setShortList(res.data);
          })
          .catch((err) => {
             console.log(err);
@@ -42,7 +53,7 @@ function ViewShortListed(props) {
                <Modal.Title>Short listed shortList</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-               {shortList?.users?.map((item, index) => {
+               {shortList?.map((item, index) => {
                   return (
                      <div>
                         <Row className="p-2 justify-content-between align-items-center">

@@ -37,11 +37,12 @@ function UserSignup() {
          })
          .then((res) => {
             console.log(res);
+            toast.success('signup successful ⚡');
 
-            storeToken(res?.data?.token);
-            const decoded = jwtDecode(res?.data?.token);
-            storeDecoded(decoded);
-            history.push(`/profile/user/${decoded?.id}`);
+            // storeToken(res?.data?.token);
+            // const decoded = jwtDecode(res?.data?.token);
+            // storeDecoded(decoded);
+            history.push('/login');
          })
          .catch((err) => {
             console.log(err);

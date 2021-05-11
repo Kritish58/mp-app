@@ -52,13 +52,13 @@ function AddExperienceModal(props) {
          .then((res) => {
             console.log(res);
             setExpModal(false);
+            window.location.reload();
             toast.success('experience udpate successful ⚡');
-            window.reload();
          })
          .catch((err) => {
             console.log(err);
             console.log(err.response);
-            toast.success('experience udpate successful ⚡');
+            toast.error('experience udpate failed ⚡');
          })
          .finally(() => {
             setIsUpdating(false);

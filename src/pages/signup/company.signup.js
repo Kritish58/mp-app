@@ -43,11 +43,12 @@ function CompanySignup() {
          })
          .then((res) => {
             console.log(res);
+            toast.success('signup successful ⚡');
 
-            storeToken(res?.data?.token);
-            const decoded = jwtDecode(res?.data?.token);
-            storeDecoded(decoded);
-            history.push(`/profile/company/${decoded?.id}`);
+            // storeToken(res?.data?.token);
+            // const decoded = jwtDecode(res?.data?.token);
+            // storeDecoded(decoded);
+            history.push('/login/company/');
          })
          .catch((err) => {
             console.log(err);
