@@ -8,7 +8,7 @@ import UserLayouts from '../../layouts/user.profile.layouts';
 import { getToken, getDecoded } from '../../auth/auth.states';
 import { Badge, Button, Col, Row } from 'react-bootstrap';
 import JobCard from '../../components/jobs/Card';
-import { useHistory } from 'react-router';
+import { useHistory, useParams } from 'react-router';
 import AddEducationModal from '../../components/profile/user/addEducation.modal';
 import AddExperienceModal from '../../components/profile/user/addExperience.modal';
 
@@ -26,6 +26,7 @@ function UserProfile() {
    const [isAddingSkill, setIsAddingSkill] = useState(false);
 
    const history = useHistory();
+   const params = useParams();
 
    useEffect(() => {
       // console.log(getDecoded());
@@ -39,7 +40,7 @@ function UserProfile() {
       const asyncFunc = async () => {
          try {
             // fetch profile
-            const prof = await axios.get(`/api/profiles/${getDecoded()?.id}`, {
+            const prof = await axios.get(`/api/profiles/${params.user_id}`, {
                headers: {
                   Authorization: getToken(),
                },
@@ -71,7 +72,7 @@ function UserProfile() {
       asyncFunc();
 
       return () => {};
-   }, [history]);
+   }, [history, params]);
 
    const addSkill = () => {
       setIsAddingSkill(true);
@@ -229,27 +230,32 @@ function UserProfile() {
                         <span className="text-muted lead">No skills added</span>
                      </div>
                   )}
-                  <h6 className="text-muted mt-3">Add skills</h6>
-                  <Select
-                     isLoading={isSkillsLoading}
-                     options={skillOptions}
-                     onChange={(selected) => setSkills(selected)}
-                     isMulti
-                  />
-                  <small>
-                     <em>
-                        Press <b>Ctrl</b> for multiple selection
-                     </em>
-                  </small>
-                  {/* <div>
-                     <span className="badge bg-primary text-light mx-1">React</span>
-                     <span className="badge bg-primary text-light mx-1">Database</span>
-                     <span className="badge bg-primary text-light mx-1">Programming</span>
-                  </div> */}
-                  <Button variant="primary" className="my-2" disabled={isAddingSkill} block onClick={() => addSkill()}>
-                     {!!isAddingSkill && <span>processing...</span>}
-                     {!isAddingSkill && <span>Udpate</span>}
-                  </Button>
+                  {profile?.user?.id === getDecoded()?.id && (
+                     <>
+                        <h6 className="text-muted mt-3">Add skills</h6>
+                        <Select
+                           isLoading={isSkillsLoading}
+                           options={skillOptions}
+                           onChange={(selected) => setSkills(selected)}
+                           isMulti
+                        />
+                        <small>
+                           <em>
+                              Press <b>Ctrl</b> for multiple selection
+                           </em>
+                        </small>
+
+                        <Button
+                           variant="primary"
+                           className="my-2"
+                           disabled={isAddingSkill}
+                           block
+                           onClick={() => addSkill()}>
+                           {!!isAddingSkill && <span>processing...</span>}
+                           {!isAddingSkill && <span>Udpate</span>}
+                        </Button>
+                     </>
+                  )}
                </div>
             </Col>
 
@@ -320,8 +326,12 @@ function UserProfile() {
          </Row>
          <hr />
 
-         <AddEducationModal profile={profile} showEduModal={showEduModal} setEduModal={setEduModal} />
-         <AddExperienceModal profile={profile} showExpModal={showExpModal} setExpModal={setExpModal} />
+         {profile?.user?.id === getDecoded()?.id && (
+            <>
+               <AddEducationModal profile={profile} showEduModal={showEduModal} setEduModal={setEduModal} />
+               <AddExperienceModal profile={profile} showExpModal={showExpModal} setExpModal={setExpModal} />
+            </>
+         )}
       </UserLayouts>
    );
 }

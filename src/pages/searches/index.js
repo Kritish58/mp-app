@@ -1,24 +1,28 @@
 import axios from 'axios';
+import parser from 'html-react-parser';
 import React, { useState, useEffect } from 'react';
 import { Button, Col, Container, Dropdown, FormControl, InputGroup, Row } from 'react-bootstrap';
 import { useHistory } from 'react-router';
+import { Link } from 'react-router-dom';
 import ReactTooltip from 'react-tooltip';
 import { getDecoded, handleLogout } from '../../auth/auth.states';
 
 function Searches() {
    const [input, setInput] = useState('');
+   const [searchResults, setSearchResults] = useState();
 
-   useEffect(() => {
+   const handleInputChange = (e) => {
+      setInput(e.target.value);
       axios
-         .get('/es/search?q=' + input)
+         .get('/es/search?q=' + e.target.value)
          .then((res) => {
             console.log(res);
+            setSearchResults(res.data.data);
          })
          .catch((err) => {
             console.log(err);
          });
-      return () => {};
-   }, [input]);
+   };
 
    return (
       <>
@@ -28,12 +32,7 @@ function Searches() {
             <Container className="p-5">
                <p className="lead ">Search for Jobs and people</p>
                <InputGroup className="shadow-sm">
-                  <FormControl
-                     value={input}
-                     onChange={(e) => setInput(e.target.value)}
-                     placeholder="search"
-                     size="lg"
-                  />
+                  <FormControl value={input} onChange={(e) => handleInputChange(e)} placeholder="search" size="lg" />
                   <InputGroup.Append>
                      <Button size="lg" variant="success">
                         <i className="bx bx-search"></i>
@@ -41,42 +40,50 @@ function Searches() {
                   </InputGroup.Append>
                </InputGroup>
 
-               <div className="p-5 my-3 bg-white border rounded text-muted shadow-sm">
-                  <h5 className="lead">No Results Found</h5>
-               </div>
-               <div className="p-4 my-3 border rounded bg-white rounded shadow-sm">
-                  <h5 className="mb-4 lead text-muted">Search Results</h5>
+               {searchResults?.length <= 0 && (
+                  <div className="p-5 my-3 bg-white border rounded text-muted shadow-sm">
+                     <h5 className="lead">No Results Found</h5>
+                  </div>
+               )}
+               {searchResults?.length > 0 && (
+                  <div className="p-4 my-3 border rounded bg-white rounded shadow-sm">
+                     <h5 className="mb-4 lead text-muted">Search Results</h5>
 
-                  <Row className=" flex-wrap align-items-center">
-                     <Col>
-                        <small className="text-muted">Title</small>
-                        <h5>Title</h5>
-                     </Col>
-                     <Col>
-                        <div className="text-muted">
-                           <i className="mr-1 small bx bx-user"></i>
-                           <small>Name</small>
-                        </div>
-                        <div>
-                           <span>Name</span>
-                        </div>
-                     </Col>
-                     <Col>
-                        <div className="text-muted">
-                           <i className="mr-1 small bx bx-mail-send"></i> <small>Email</small>
-                        </div>
-                        <div>
-                           <span>Email</span>
-                        </div>
-                     </Col>
-                     <Col>
-                        <Button variant="primary" data-tip="view profile">
-                           <i className="bx bxs-user"></i>
-                        </Button>
-                     </Col>
-                  </Row>
-                  <hr />
-               </div>
+                     {searchResults?.map((result, index) => {
+                        return (
+                           <div key={result?.id ?? index}>
+                              <Row className="text-muted flex-wrap align-items-center">
+                                 <Col xs={4}>
+                                    <span>{parser(result?.highlight?.title?.[0] ?? result?.source?.title)}</span>
+                                 </Col>
+                                 <Col xs={3}>
+                                    <i className="mr-1 small bx bx-user"></i>
+                                    <span>{parser(result?.highlight?.name?.[0] ?? result?.source?.name)}</span>
+                                 </Col>
+                                 <Col xs={4}>
+                                    <i className="mr-1 small bx bx-mail-send"></i>
+                                    <span>{parser(result?.highlight?.email?.[0] ?? result?.source?.email)}</span>
+                                 </Col>
+                                 <Col xs={1}>
+                                    <Link to={'/profile/user/' + result?.id}>
+                                       <Button variant="primary" data-tip="view profile">
+                                          <i className="bx bxs-user"></i>
+                                       </Button>
+                                    </Link>
+                                 </Col>
+                              </Row>
+                              <hr />
+                           </div>
+                        );
+                     })}
+                     <Button
+                        className="d-flex align-items-center justify-content-center text-muted"
+                        variant="light"
+                        block>
+                        <span>Show More</span> <i className="ml-1 bx bxs-chevron-down"></i>
+                     </Button>
+                  </div>
+               )}
             </Container>
          </div>
       </>
