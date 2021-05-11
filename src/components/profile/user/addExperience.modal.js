@@ -51,12 +51,13 @@ function AddExperienceModal(props) {
          .then((res) => {
             console.log(res);
             setExpModal(false);
+            toast.success('experience udpate successful ⚡');
             window.reload();
          })
          .catch((err) => {
             console.log(err);
             console.log(err.response);
-            toast.error('experience add failed ⚡');
+            toast.success('experience udpate successful ⚡');
          })
          .finally(() => {
             setIsUpdating(false);

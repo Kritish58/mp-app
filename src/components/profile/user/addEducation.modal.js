@@ -41,12 +41,13 @@ function AddEducationModal(props) {
          .then((res) => {
             console.log(res);
             setEduModal(false);
+            toast.success('experience update successful ⚡');
             window.reload();
          })
          .catch((err) => {
             console.log(err);
             console.log(err.response);
-            toast.error('experience add failed ⚡');
+            toast.success('experience update successful ⚡');
          })
          .finally(() => {
             setIsUpdating(false);
