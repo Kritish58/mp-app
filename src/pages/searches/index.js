@@ -1,6 +1,6 @@
 import axios from 'axios';
 import parser from 'html-react-parser';
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Button, Col, Container, Dropdown, FormControl, InputGroup, Row, Spinner } from 'react-bootstrap';
 import { useHistory } from 'react-router';
 import { Link } from 'react-router-dom';
@@ -11,10 +11,13 @@ function Searches() {
    const [input, setInput] = useState('');
    const [searchResults, setSearchResults] = useState();
    const [isLoading, setIsLoading] = useState(false);
-   const [doShowAll, setShowAll] = useState(false);
+   const [pageIndex, setPageIndex] = useState(0);
 
    const handleInputChange = (e) => {
       setInput(e.target.value);
+      if (pageIndex > 0) {
+         setPageIndex(0);
+      }
 
       setIsLoading(true);
       axios
@@ -65,43 +68,46 @@ function Searches() {
                )}
                {searchResults?.length > 0 && (
                   <div className="p-4 my-3 border rounded bg-white rounded shadow-sm">
-                     <h5 className="mb-4 lead text-muted">Search Results</h5>
+                     <h5 className="mb-4 lead text-muted">Search Results ({searchResults.length})</h5>
 
                      {searchResults?.map((result, index) => {
-                        return (
-                           <div key={result?.id ?? index}>
-                              <Row className="text-muted flex-wrap align-items-center">
-                                 <Col xs={4}>
-                                    <span>{parser(result?.highlight?.title?.[0] ?? result?.source?.title)}</span>
-                                 </Col>
-                                 <Col xs={3}>
-                                    <i className="mr-1 small bx bx-user"></i>
-                                    <span>{parser(result?.highlight?.name?.[0] ?? result?.source?.name)}</span>
-                                 </Col>
-                                 <Col xs={4}>
-                                    <i className="mr-1 small bx bx-mail-send"></i>
-                                    <span>{parser(result?.highlight?.email?.[0] ?? result?.source?.email)}</span>
-                                 </Col>
-                                 <Col xs={1}>
-                                    <Link to={'/profile/user/' + result?.id}>
-                                       <Button variant="primary" data-tip="view profile">
-                                          <i className="bx bxs-user"></i>
-                                       </Button>
-                                    </Link>
-                                 </Col>
-                              </Row>
-                              <hr />
-                           </div>
-                        );
+                        if (index < 10) {
+                           return (
+                              <div key={result?.id ?? index}>
+                                 <Row className="text-muted flex-wrap align-items-center">
+                                    <Col xs={4}>
+                                       <span>{parser(result?.highlight?.title?.[0] ?? result?.source?.title)}</span>
+                                    </Col>
+                                    <Col xs={3}>
+                                       <i className="mr-1 small bx bx-user"></i>
+                                       <span>{parser(result?.highlight?.name?.[0] ?? result?.source?.name)}</span>
+                                    </Col>
+                                    <Col xs={4}>
+                                       <i className="mr-1 small bx bx-mail-send"></i>
+                                       <span>{parser(result?.highlight?.email?.[0] ?? result?.source?.email)}</span>
+                                    </Col>
+                                    <Col xs={1}>
+                                       <Link to={'/profile/user/' + result?.id}>
+                                          <Button variant="primary" data-tip="view profile">
+                                             <i className="bx bxs-user"></i>
+                                          </Button>
+                                       </Link>
+                                    </Col>
+                                 </Row>
+                                 <hr />
+                              </div>
+                           );
+                        }
+                        return <></>;
                      })}
-                     <Button
-                        className="d-flex align-items-center justify-content-center text-muted"
-                        variant="light"
-                        onClick={() => setShowAll((prev) => !prev)}
-                        block>
-                        <span>Show {doShowAll ? 'all' : 'less'}</span>{' '}
-                        <i className={`ml-1 bx bxs-chevron-${doShowAll ? 'up' : 'down'}`}></i>
-                     </Button>
+                     {searchResults.length > 10 && (
+                        <Button
+                           className="d-flex align-items-center justify-content-center text-muted"
+                           variant="light"
+                           block>
+                           <span>Show more</span> <i className={`ml-1 bx bxs-chevron-down`}></i>
+                        </Button>
+                     )}
                   </div>
                )}
             </Container>
