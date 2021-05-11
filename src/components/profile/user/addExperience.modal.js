@@ -51,6 +51,7 @@ function AddExperienceModal(props) {
          .then((res) => {
             console.log(res);
             setExpModal(false);
+            window.reload();
          })
          .catch((err) => {
             console.log(err);

@@ -19,8 +19,9 @@ function UserProfile() {
    const [profile, setProfile] = useState(null);
    const [appliedJobs, setAppliedJobs] = useState([]);
 
+   const [isSkillsLoading, setIsSkillsLoading] = useState(true);
    const [skillOptions, setSkillOptions] = useState(null);
-   const [selectedSkills, setSkills] = useState(null);
+   const [selectedSkills, setSkills] = useState([]);
 
    const [isAddingSkill, setIsAddingSkill] = useState(false);
 
@@ -53,6 +54,7 @@ function UserProfile() {
 
             // fetch skills
             const skills = await axios.get('/api/skills?limit=0', { headers: { Auhorization: getToken() } });
+            setIsSkillsLoading(false);
             setSkillOptions(
                skills.data.map((item) => {
                   return { value: item.id, label: item.name };
@@ -73,7 +75,7 @@ function UserProfile() {
 
    const addSkill = () => {
       setIsAddingSkill(true);
-      console.log(selectedSkills?.map((item) => item.value));
+      // console.log(selectedSkills?.map((item) => item.value));
       axios
          .patch(
             '/api/profiles/' + getDecoded().id,
@@ -228,7 +230,12 @@ function UserProfile() {
                      </div>
                   )}
                   <h6 className="text-muted mt-3">Add skills</h6>
-                  <Select options={skillOptions} onChange={(selected) => setSkills(selected)} isMulti />
+                  <Select
+                     isLoading={isSkillsLoading}
+                     options={skillOptions}
+                     onChange={(selected) => setSkills(selected)}
+                     isMulti
+                  />
                   <small>
                      <em>
                         Press <b>Ctrl</b> for multiple selection

@@ -41,6 +41,7 @@ function AddEducationModal(props) {
          .then((res) => {
             console.log(res);
             setEduModal(false);
+            window.reload();
          })
          .catch((err) => {
             console.log(err);
