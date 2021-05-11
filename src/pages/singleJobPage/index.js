@@ -22,6 +22,7 @@ function SingleJobPage() {
    const [showShortsModal, setShortsModal] = useState(false);
 
    const [isApplying, setIsApplying] = useState(false);
+   const [jobApplied, setJobApplied] = useState(false);
    const [job, setJob] = useState(null);
    const [recentJobs, setRecentJobs] = useState(null);
 
@@ -70,6 +71,8 @@ function SingleJobPage() {
             }
          );
          console.log(res);
+         setJobApplied(true);
+         fetchJob();
       } catch (err) {
          console.log(err);
          console.log(err.response);
@@ -77,6 +80,20 @@ function SingleJobPage() {
       } finally {
          setIsApplying(false);
       }
+   };
+
+   const fetchJob = () => {
+      axios
+         .get('/api/jobs/' + params?.job_id, { headers: { Authorization: getToken() } })
+         .then((res) => {
+            console.log(res);
+            setJob(res.data);
+         })
+         .catch((err) => {
+            console.log(err);
+            console.log(err.resposne);
+         })
+         .finally();
    };
 
    return (
@@ -164,26 +181,43 @@ function SingleJobPage() {
                      {parse(job?.description ?? '<p>No description added</p>')}
                   </div>
                   {getDecoded()?.role === 'user' && (
-                     <Button block disabled={isApplying} size="lg" variant="success" onClick={() => applyJob()}>
-                        {!isApplying && <span>Apply</span>}
-                        {!!isApplying && <span>processing...</span>}
-                     </Button>
+                     <>
+                        {!job?.isApplied && (
+                           <Button
+                              block
+                              disabled={isApplying || job?.isApplied || job === null || jobApplied}
+                              size="lg"
+                              variant="success"
+                              onClick={() => applyJob()}>
+                              {!isApplying && <span>Apply</span>}
+                              {!!isApplying && <span>processing...</span>}
+                           </Button>
+                        )}
+                        {job?.isApplied && (
+                           <Button block disabled size="lg" variant="success">
+                              <span>Applied</span>
+                           </Button>
+                        )}
+                     </>
                   )}
                   {getDecoded()?.role === 'company' && (
                      <>
                         <Button size="" variant="primary" onClick={() => setEditModal(true)}>
                            <span>edit</span>
                         </Button>
-                        <Button
-                           size=""
-                           className="mx-2"
-                           variant="outline-secondary"
-                           onClick={() => setApplicantsModal(true)}>
-                           <span>view applicants</span>
-                        </Button>
-                        <Button size="" variant="success" onClick={() => setShortsModal(true)}>
-                           <span>view shortlisted</span>
-                        </Button>
+                        {new Date(job?.endDate).getTime() > new Date().getTime() && (
+                           <Button
+                              className="ml-1"
+                              variant="outline-secondary"
+                              onClick={() => setApplicantsModal(true)}>
+                              <span>view applicants</span>
+                           </Button>
+                        )}
+                        {new Date(job?.endDate).getTime() <= new Date().getTime() && (
+                           <Button className="ml-1" variant="success" onClick={() => setShortsModal(true)}>
+                              <span>view shortlisted</span>
+                           </Button>
+                        )}
                      </>
                   )}
                </Col>

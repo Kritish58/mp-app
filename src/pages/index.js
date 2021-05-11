@@ -53,7 +53,7 @@ function HomePage() {
 
    return (
       <HomeLayouts page="home">
-         {!!recommendedJobs && !!recommendedJobs.length && (
+         {!!recommendedJobs && (
             <>
                <h2 className="text-left">Recommended Jobs</h2>
                <Slider {...slickSettings} className="px-4 mx-4">
