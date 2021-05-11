@@ -27,7 +27,7 @@ function ViewShortListed(props) {
       axios
          .get(`/api/shortlists/${job.id}`, { headers: { Authorization: getToken() } })
          .then((res) => {
-            console.log('Shortlist api is not used', res);
+            console.log(res);
             // setShortList(res.data);
          })
          .catch((err) => {
