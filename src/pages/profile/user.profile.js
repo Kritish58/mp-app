@@ -61,6 +61,7 @@ function UserProfile() {
                   return { value: item.id, label: item.name };
                })
             );
+
             //
          } catch (err) {
             console.log(err);
@@ -82,12 +83,13 @@ function UserProfile() {
             '/api/profiles/' + getDecoded().id,
             {
                ...profile,
-               skills: [...profile.skills, ...selectedSkills?.map((item) => item.value)],
+               skills: [...selectedSkills?.map((item) => item.value)],
             },
             { headers: { Authorization: getToken() } }
          )
          .then((res) => {
             console.log(res);
+            window.location.reload();
          })
          .catch((err) => {
             console.log(err);
@@ -169,14 +171,14 @@ function UserProfile() {
                      return (
                         <Row key={exp.id} className="flex-wrap p-2 my-3">
                            <Col xs={12}>
-                              <h5 className="lead">Title</h5>
+                              <h5 className="lead">{exp?.title ?? 'title not added'}</h5>
                            </Col>
                            <Col xs={5} className="m-2">
                               <div>
                                  <h6 className="my-0 text-muted small">Company</h6>
                               </div>
                               <div>
-                                 <span className="small">{exp?.company?.name ?? 'unavailable'}</span>
+                                 <span className="small">{exp?.company ?? 'unavailable'}</span>
                               </div>
                            </Col>
                            <Col xs={5} className="m-2">
@@ -185,7 +187,7 @@ function UserProfile() {
                               </div>
                               <div>
                                  {exp?.emp_type?.split(',').map((item) => (
-                                    <Badge key={item} variant="info">
+                                    <Badge className="mr-1" key={item} variant="info">
                                        {item ?? 'unavailable'}
                                     </Badge>
                                  )) ?? 'unavailable'}
@@ -212,7 +214,7 @@ function UserProfile() {
                   })}
                </div>
             </Col>
-            <Col xs={{ span: 12, order: 'first' }} lg={{ span: 6, order: 'first' }} className="p-2 ">
+            <Col xs={{ span: 12, order: 'first' }} lg={{ span: 6, order: 1 }} className="p-2 ">
                <div className="border rounded shadow-sm p-3">
                   <div className="d-flex justify-content-between">
                      <h3>Skills</h3>
@@ -220,7 +222,7 @@ function UserProfile() {
 
                   <div className="p-2 mb-2">
                      {profile?.skills?.map((skill, index) => (
-                        <div key={skill.id ?? skill._id ?? index} style={{ fontSize: 20 }}>
+                        <div className="d-inline mx-1" key={skill.id ?? skill._id ?? index} style={{ fontSize: 20 }}>
                            <Badge variant="info">{skill.name}</Badge>
                         </div>
                      ))}
@@ -236,6 +238,9 @@ function UserProfile() {
                         <Select
                            isLoading={isSkillsLoading}
                            options={skillOptions}
+                           defaultValue={profile?.skills?.map((skill) => {
+                              return { value: skill._id, label: skill.name };
+                           })}
                            onChange={(selected) => setSkills(selected)}
                            isMulti
                         />

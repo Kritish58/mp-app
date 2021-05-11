@@ -19,6 +19,10 @@ function AddEducationModal(props) {
 
    const handleSubmit = (e) => {
       e.preventDefault();
+
+      //   console.log(schoolRef.current.value);
+      //   return;
+
       setIsUpdating(true);
       axios
          .patch(
@@ -42,12 +46,12 @@ function AddEducationModal(props) {
             console.log(res);
             setEduModal(false);
             toast.success('experience update successful ⚡');
-            window.reload();
+            // window.reload();
          })
          .catch((err) => {
             console.log(err);
             console.log(err.response);
-            toast.success('experience update successful ⚡');
+            // toast.success('experience update successful ⚡');
          })
          .finally(() => {
             setIsUpdating(false);
@@ -90,7 +94,7 @@ function AddEducationModal(props) {
                   </Form.Group>
 
                   <Form.Group>
-                     <Form.Label className="d-block">End Date</Form.Label>
+                     <Form.Label className="d-block">Start Date</Form.Label>
                      <Form.Control ref={startDateRef} type="text" placeholder="07 May, 2011"></Form.Control>
                   </Form.Group>
 

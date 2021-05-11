@@ -28,6 +28,7 @@ function AddExperienceModal(props) {
 
    const handleSubmit = (e) => {
       e.preventDefault();
+
       setIsUpdating(true);
       axios
          .patch(
@@ -84,10 +85,7 @@ function AddExperienceModal(props) {
 
                   <Form.Group>
                      <Form.Label>Company</Form.Label>
-                     <Form.Control
-                        ref={companyRef}
-                        type="text"
-                        placeholder="dharan-15, shyam chowk, sunsari"></Form.Control>
+                     <Form.Control ref={companyRef} type="text" placeholder="Google Inc."></Form.Control>
                   </Form.Group>
 
                   <Form.Group>
