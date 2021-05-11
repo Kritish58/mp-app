@@ -2,6 +2,7 @@ import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import { Button, Col, Container, Dropdown, FormControl, InputGroup, Row } from 'react-bootstrap';
 import { useHistory } from 'react-router';
+import ReactTooltip from 'react-tooltip';
 import { getDecoded, handleLogout } from '../../auth/auth.states';
 
 function Searches() {
@@ -20,22 +21,65 @@ function Searches() {
    }, [input]);
 
    return (
-      <div className="bg-light" style={{ minHeight: '100vh' }}>
-         <Menu />
-         <Container className="p-5">
-            <p className="lead ">Search for Jobs and people</p>
-            <InputGroup className="mb-3 shadow-sm">
-               <FormControl value={input} onChange={(e) => setInput(e.target.value)} placeholder="search" size="lg" />
-               <InputGroup.Append>
-                  <Button size="lg" variant="success">
-                     <i className="bx bx-search"></i>
-                  </Button>
-               </InputGroup.Append>
-            </InputGroup>
+      <>
+         <ReactTooltip type="dark" className="p-1" />
+         <div className="bg-light" style={{ minHeight: '100vh' }}>
+            <Menu />
+            <Container className="p-5">
+               <p className="lead ">Search for Jobs and people</p>
+               <InputGroup className="shadow-sm">
+                  <FormControl
+                     value={input}
+                     onChange={(e) => setInput(e.target.value)}
+                     placeholder="search"
+                     size="lg"
+                  />
+                  <InputGroup.Append>
+                     <Button size="lg" variant="success">
+                        <i className="bx bx-search"></i>
+                     </Button>
+                  </InputGroup.Append>
+               </InputGroup>
 
-            <div></div>
-         </Container>
-      </div>
+               <div className="p-5 my-3 bg-white border rounded text-muted shadow-sm">
+                  <h5 className="lead">No Results Found</h5>
+               </div>
+               <div className="p-4 my-3 border rounded bg-white rounded shadow-sm">
+                  <h5 className="mb-4 lead text-muted">Search Results</h5>
+
+                  <Row className=" flex-wrap align-items-center">
+                     <Col>
+                        <small className="text-muted">Title</small>
+                        <h5>Title</h5>
+                     </Col>
+                     <Col>
+                        <div className="text-muted">
+                           <i className="mr-1 small bx bx-user"></i>
+                           <small>Name</small>
+                        </div>
+                        <div>
+                           <span>Name</span>
+                        </div>
+                     </Col>
+                     <Col>
+                        <div className="text-muted">
+                           <i className="mr-1 small bx bx-mail-send"></i> <small>Email</small>
+                        </div>
+                        <div>
+                           <span>Email</span>
+                        </div>
+                     </Col>
+                     <Col>
+                        <Button variant="primary" data-tip="view profile">
+                           <i className="bx bxs-user"></i>
+                        </Button>
+                     </Col>
+                  </Row>
+                  <hr />
+               </div>
+            </Container>
+         </div>
+      </>
    );
 }
 
