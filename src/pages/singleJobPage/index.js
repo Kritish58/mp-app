@@ -192,6 +192,7 @@ function SingleJobPage() {
                      <h6 className="my-0 text-muted">Description</h6>
                      {parse(job?.description ?? '<p>No description added</p>')}
                   </div>
+                  <hr />
                   {getDecoded()?.role === 'user' && (
                      <>
                         {!job?.isApplied && (
@@ -214,14 +215,11 @@ function SingleJobPage() {
                   )}
                   {getDecoded()?.role === 'company' && (
                      <>
-                        <Button size="" variant="secondary" onClick={() => setEditModal(true)}>
+                        <Button size="" variant="light" onClick={() => setEditModal(true)}>
                            <span>edit</span>
                         </Button>
                         {new Date(job?.endDate).getTime() > new Date().getTime() && (
-                           <Button
-                              className="ml-2"
-                              variant="outline-secondary"
-                              onClick={() => setApplicantsModal(true)}>
+                           <Button className="ml-2" variant="secondary" onClick={() => setApplicantsModal(true)}>
                               <span>view applicants</span>
                            </Button>
                         )}

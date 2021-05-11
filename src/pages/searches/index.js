@@ -25,12 +25,7 @@ function Searches() {
          <Container className="p-5">
             <p className="lead ">Search for Jobs and people</p>
             <InputGroup className="mb-3 shadow-sm">
-               <FormControl
-                  value={input}
-                  onChange={(e) => setInput(e.target.value)}
-                  placeholder="job search"
-                  size="lg"
-               />
+               <FormControl value={input} onChange={(e) => setInput(e.target.value)} placeholder="search" size="lg" />
                <InputGroup.Append>
                   <Button size="lg" variant="success">
                      <i className="bx bx-search"></i>
