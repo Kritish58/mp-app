@@ -1,7 +1,7 @@
 import axios from 'axios';
 import parser from 'html-react-parser';
 import React, { useState, useEffect } from 'react';
-import { Button, Col, Container, Dropdown, FormControl, InputGroup, Row } from 'react-bootstrap';
+import { Button, Col, Container, Dropdown, FormControl, InputGroup, Row, Spinner } from 'react-bootstrap';
 import { useHistory } from 'react-router';
 import { Link } from 'react-router-dom';
 import ReactTooltip from 'react-tooltip';
@@ -10,9 +10,13 @@ import { getDecoded, handleLogout } from '../../auth/auth.states';
 function Searches() {
    const [input, setInput] = useState('');
    const [searchResults, setSearchResults] = useState();
+   const [isLoading, setIsLoading] = useState(false);
+   const [doShowAll, setShowAll] = useState(false);
 
    const handleInputChange = (e) => {
       setInput(e.target.value);
+
+      setIsLoading(true);
       axios
          .get('/es/search?q=' + e.target.value)
          .then((res) => {
@@ -21,6 +25,9 @@ function Searches() {
          })
          .catch((err) => {
             console.log(err);
+         })
+         .finally(() => {
+            setIsLoading(false);
          });
    };
 
@@ -30,7 +37,18 @@ function Searches() {
          <div className="bg-light" style={{ minHeight: '100vh' }}>
             <Menu />
             <Container className="p-5">
-               <p className="lead ">Search for Jobs and people</p>
+               <p className="lead d-flex align-items-center">
+                  <span className="mr-2">Search for Jobs and people</span>
+                  {!!isLoading && (
+                     <Spinner
+                        className="text-muted"
+                        animation="border"
+                        role="status"
+                        style={{ borderWidth: 3, height: 20, width: 20 }}>
+                        <span className="sr-only">Loading...</span>
+                     </Spinner>
+                  )}
+               </p>
                <InputGroup className="shadow-sm">
                   <FormControl value={input} onChange={(e) => handleInputChange(e)} placeholder="search" size="lg" />
                   <InputGroup.Append>
@@ -79,8 +97,10 @@ function Searches() {
                      <Button
                         className="d-flex align-items-center justify-content-center text-muted"
                         variant="light"
+                        onClick={() => setShowAll((prev) => !prev)}
                         block>
-                        <span>Show More</span> <i className="ml-1 bx bxs-chevron-down"></i>
+                        <span>Show {doShowAll ? 'all' : 'less'}</span>{' '}
+                        <i className={`ml-1 bx bxs-chevron-${doShowAll ? 'up' : 'down'}`}></i>
                      </Button>
                   </div>
                )}
