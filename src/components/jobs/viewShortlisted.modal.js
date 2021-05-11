@@ -42,7 +42,7 @@ function ViewShortListed(props) {
                <Modal.Title>Short listed shortList</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-               {shortList?.map((item, index) => {
+               {shortList?.users?.map((item, index) => {
                   return (
                      <div>
                         <Row className="p-2 justify-content-between align-items-center">

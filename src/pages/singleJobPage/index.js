@@ -207,14 +207,14 @@ function SingleJobPage() {
                         </Button>
                         {new Date(job?.endDate).getTime() > new Date().getTime() && (
                            <Button
-                              className="ml-1"
+                              className="ml-2"
                               variant="outline-secondary"
                               onClick={() => setApplicantsModal(true)}>
                               <span>view applicants</span>
                            </Button>
                         )}
                         {new Date(job?.endDate).getTime() <= new Date().getTime() && (
-                           <Button className="ml-1" variant="success" onClick={() => setShortsModal(true)}>
+                           <Button className="ml-2" variant="success" onClick={() => setShortsModal(true)}>
                               <span>view shortlisted</span>
                            </Button>
                         )}

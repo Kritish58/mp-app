@@ -49,6 +49,9 @@ function EditJob(props) {
    const [selectedEmpType, setEmpType] = useState(null);
    const [selectedLevel, setLevel] = useState(null);
 
+   const [skillOptions, setSkillOptions] = useState(null);
+   const [selectedSkills, setSkills] = useState(null);
+
    const [isLoading, setIsLoading] = useState(false);
 
    const titleRef = useRef();
@@ -63,6 +66,26 @@ function EditJob(props) {
       return () => {};
    }, [props]);
 
+   useEffect(() => {
+      axios
+         .get('/api/skills?limit=0', { headers: { Auhorization: getToken() } })
+         .then((res) => {
+            console.log(res);
+            setSkillOptions(
+               res.data.map((item) => {
+                  return { value: item.id, label: item.name };
+               })
+            );
+         })
+         .catch((err) => {
+            console.log(err);
+            console.log(err.response);
+            toast.error(err?.response?.data?.title);
+            // if (err?.response?.status === 401) history.push('/login/company');
+         });
+      return () => {};
+   }, [history]);
+
    const updateJob = () => {
       setIsLoading(true);
       axios
@@ -72,6 +95,7 @@ function EditJob(props) {
                title: titleRef.current.value,
                location: locationRef.current.value,
                // total_applicants: applicantsRef.current.value,
+               skills: selectedSkills.map((item) => item.value),
                industry: selectedIndustry?.map((ind) => ind?.value).toString(),
                seniority_level: selectedLevel?.map((lvl) => lvl?.value).toString(),
                emp_type: selectedEmpType?.map((emp) => emp?.value).toString(),
@@ -144,6 +168,23 @@ function EditJob(props) {
                         defaultValue={job?.salary}
                         type="text"
                         placeholder="//Negotiable //40000-60000"></Form.Control>
+                  </Form.Group>
+
+                  <Form.Group>
+                     <Form.Label>Skills</Form.Label>
+                     <Select
+                        options={skillOptions}
+                        defaultValue={job?.skills?.map((item, index) => {
+                           return { value: item.id, label: item.name };
+                        })}
+                        onChange={(selected) => setSkills(selected)}
+                        isMulti
+                     />
+                     <Form.Text>
+                        <em>
+                           Press <b>Ctrl</b> for multiple selection
+                        </em>
+                     </Form.Text>
                   </Form.Group>
 
                   <Form.Group>

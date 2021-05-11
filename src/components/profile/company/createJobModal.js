@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
@@ -50,6 +50,10 @@ function CreateJobModal(props) {
    const [selectedIndustry, setIndustry] = useState(null);
    const [selectedEmpType, setEmpType] = useState(null);
    const [selectedLevel, setLevel] = useState(null);
+
+   const [skillOptions, setSkillOptions] = useState(null);
+   const [selectedSkills, setSkills] = useState(null);
+
    const [isLoading, setIsLoading] = useState(false);
 
    const titleRef = useRef();
@@ -68,6 +72,7 @@ function CreateJobModal(props) {
                title: titleRef.current.value,
                location: locationRef.current.value,
                // total_applicants: applicantsRef.current.value,
+               skills: selectedSkills.map((item) => item.value),
                industry: selectedIndustry?.map((ind) => ind?.value).toString(),
                seniority_level: selectedLevel?.map((lvl) => lvl?.value).toString(),
                emp_type: selectedEmpType?.map((emp) => emp?.value).toString(),
@@ -84,6 +89,7 @@ function CreateJobModal(props) {
          .then((res) => {
             console.log(res);
             toast.success('job created ⚡');
+            handleCloseModal();
          })
          .catch((err) => {
             console.log(err);
@@ -95,6 +101,26 @@ function CreateJobModal(props) {
             setIsLoading(false);
          });
    };
+
+   useEffect(() => {
+      axios
+         .get('/api/skills?limit=0', { headers: { Auhorization: getToken() } })
+         .then((res) => {
+            console.log(res);
+            setSkillOptions(
+               res.data.map((item) => {
+                  return { value: item.id, label: item.name };
+               })
+            );
+         })
+         .catch((err) => {
+            console.log(err);
+            console.log(err.response);
+            toast.error(err?.response?.data?.title);
+            // if (err?.response?.status === 401) history.push('/login/company');
+         });
+      return () => {};
+   }, [history]);
 
    return (
       <>
@@ -130,6 +156,16 @@ function CreateJobModal(props) {
                   <Form.Group>
                      <Form.Label>Salary</Form.Label>
                      <Form.Control ref={salaryRef} type="text" placeholder="//Negotiable //40000-60000"></Form.Control>
+                  </Form.Group>
+
+                  <Form.Group>
+                     <Form.Label>Skills</Form.Label>
+                     <Select options={skillOptions} onChange={(selected) => setSkills(selected)} isMulti />
+                     <Form.Text>
+                        <em>
+                           Press <b>Ctrl</b> for multiple selection
+                        </em>
+                     </Form.Text>
                   </Form.Group>
 
                   <Form.Group>
