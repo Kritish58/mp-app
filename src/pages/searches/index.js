@@ -1,6 +1,6 @@
 import axios from 'axios';
 import parser from 'html-react-parser';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button, Col, Container, Dropdown, FormControl, InputGroup, Row, Spinner } from 'react-bootstrap';
 import { useHistory } from 'react-router';
 import { Link } from 'react-router-dom';
@@ -11,28 +11,37 @@ function Searches() {
    const [input, setInput] = useState('');
    const [searchResults, setSearchResults] = useState();
    const [isLoading, setIsLoading] = useState(false);
-   const [pageIndex, setPageIndex] = useState(0);
 
-   const handleInputChange = (e) => {
-      setInput(e.target.value);
-      if (pageIndex > 0) {
-         setPageIndex(0);
-      }
+   useEffect(() => {
+      const delayDebounceFn = setTimeout(() => {
+         if (input.length > 0) {
+            setIsLoading(true);
+            axios
+               .get('/es/search?q=' + input)
+               .then((res) => {
+                  console.log(res);
+                  setSearchResults(res.data.data);
+               })
+               .catch((err) => {
+                  console.log(err);
+               })
+               .finally(() => {
+                  setIsLoading(false);
+               });
+         }
+      }, 300);
 
-      setIsLoading(true);
-      axios
-         .get('/es/search?q=' + e.target.value)
-         .then((res) => {
-            console.log(res);
-            setSearchResults(res.data.data);
-         })
-         .catch((err) => {
-            console.log(err);
-         })
-         .finally(() => {
-            setIsLoading(false);
-         });
-   };
+      return () => clearTimeout(delayDebounceFn);
+   }, [input]);
+
+   //    const handleInputChange = (e) => {
+   //       setInput(e.target.value);
+   //       if (pageIndex > 0) {
+   //          setPageIndex(0);
+   //       }
+
+   //       setIsLoading(true);
+   //    };
 
    return (
       <>
@@ -53,7 +62,12 @@ function Searches() {
                   )}
                </p>
                <InputGroup className="shadow-sm">
-                  <FormControl value={input} onChange={(e) => handleInputChange(e)} placeholder="search" size="lg" />
+                  <FormControl
+                     value={input}
+                     onChange={(e) => setInput(e.target.value)}
+                     placeholder="search"
+                     size="lg"
+                  />
                   <InputGroup.Append>
                      <Button size="lg" variant="success">
                         <i className="bx bx-search"></i>
@@ -74,7 +88,7 @@ function Searches() {
                         if (index < 10) {
                            return (
                               <div key={result?.id ?? index}>
-                                 <Row className="text-muted flex-wrap align-items-center">
+                                 <Row className=" flex-wrap align-items-center">
                                     <Col xs={4}>
                                        <span>{parser(result?.highlight?.title?.[0] ?? result?.source?.title)}</span>
                                     </Col>

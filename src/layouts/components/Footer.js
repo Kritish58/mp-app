@@ -13,9 +13,7 @@ const FooterContainer = styled.div`
 function Footer() {
    return (
       <FooterContainer>
-         <span className="small text-light">
-            Copyright ©2021 All rights reserved | This website is made with 💜 by e-recruiter.com
-         </span>
+         <span className="small text-light">Copyright ©2021 All rights reserved</span>
       </FooterContainer>
    );
 }
