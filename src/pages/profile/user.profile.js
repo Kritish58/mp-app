@@ -9,8 +9,13 @@ import { getToken, getDecoded } from '../../auth/auth.states';
 import { Badge, Button, Col, Row } from 'react-bootstrap';
 import JobCard from '../../components/jobs/Card';
 import { useHistory } from 'react-router';
+import AddEducationModal from '../../components/profile/user/addEducation.modal';
+import AddExperienceModal from '../../components/profile/user/addExperience.modal';
 
 function UserProfile() {
+   const [showEduModal, setEduModal] = useState(false);
+   const [showExpModal, setExpModal] = useState(false);
+
    const [profile, setProfile] = useState(null);
    const [appliedJobs, setAppliedJobs] = useState([]);
 
@@ -132,11 +137,13 @@ function UserProfile() {
                <div className="border rounded shadow-sm p-3">
                   <div className="d-flex justify-content-between">
                      <h3>Experience</h3>
-                     <div>
-                        <Button variant="light" size="sm">
-                           <i className="bx bx-pencil"></i>
-                        </Button>
-                     </div>
+                     {getDecoded()?.id === profile?.user?.id && (
+                        <div>
+                           <Button variant="light" size="sm" onClick={() => setExpModal(true)}>
+                              <i className="bx bx-pencil"></i>
+                           </Button>
+                        </div>
+                     )}
                   </div>
                   {/* <div>
                      <div>
@@ -149,13 +156,15 @@ function UserProfile() {
                         <em className="text-muted">Duration: </em> May - June 2017
                      </div>
                   </div> */}
-                  <div className="p-2 mt-2 w-100 bg-light text-center" style={{ border: 'dashed 1px #aaa' }}>
-                     <span className="text-muted lead">No experiences added</span>
-                  </div>
+                  {!profile?.experience?.length && (
+                     <div className="p-2 mt-2 w-100 bg-light text-center" style={{ border: 'dashed 1px #aaa' }}>
+                        <span className="text-muted lead">No experiences added</span>
+                     </div>
+                  )}
 
-                  {[1, 2].map((item, index) => {
+                  {profile?.experience?.map((exp) => {
                      return (
-                        <Row key={index} className="flex-wrap p-2 my-3">
+                        <Row key={exp.id} className="flex-wrap p-2 my-3">
                            <Col xs={12}>
                               <h5 className="lead">Title</h5>
                            </Col>
@@ -164,7 +173,7 @@ function UserProfile() {
                                  <h6 className="my-0 text-muted small">Company</h6>
                               </div>
                               <div>
-                                 <span className="small">{'unavailable'}</span>
+                                 <span className="small">{exp?.company?.name ?? 'unavailable'}</span>
                               </div>
                            </Col>
                            <Col xs={5} className="m-2">
@@ -172,7 +181,11 @@ function UserProfile() {
                                  <h6 className="my-0 text-muted small">Employment type</h6>
                               </div>
                               <div>
-                                 <Badge variant="info">{'unavailable'}</Badge>
+                                 {exp?.emp_type?.split(',').map((item) => (
+                                    <Badge key={item} variant="info">
+                                       {item ?? 'unavailable'}
+                                    </Badge>
+                                 )) ?? 'unavailable'}
                               </div>
                            </Col>
                            <Col xs={5} className="m-2">
@@ -180,7 +193,7 @@ function UserProfile() {
                                  <h6 className="my-0 text-muted small">Location</h6>
                               </div>
                               <div>
-                                 <span className="small">{'dharan-15, shyam chowk, sunsari'}</span>
+                                 <span className="small">{exp?.location}</span>
                               </div>
                            </Col>
                            <Col xs={5} className="m-2">
@@ -188,7 +201,7 @@ function UserProfile() {
                                  <h6 className="my-0 text-muted small">Duration</h6>
                               </div>
                               <div>
-                                 <span className="small">{'unavailable'}</span>
+                                 <span className="small">{exp?.start + ' - ' + exp?.end}</span>
                               </div>
                            </Col>
                         </Row>
@@ -203,13 +216,17 @@ function UserProfile() {
                   </div>
 
                   <div className="p-2 mb-2">
-                     <div style={{ fontSize: 20 }}>
-                        <Badge variant="info">HTML</Badge>
+                     {profile?.skills?.map((skill, index) => (
+                        <div key={skill.id ?? skill._id ?? index} style={{ fontSize: 20 }}>
+                           <Badge variant="info">{skill.name}</Badge>
+                        </div>
+                     ))}
+                  </div>
+                  {!profile?.skills?.length && (
+                     <div className="p-2 my-2 w-100 bg-light text-center" style={{ border: 'dashed 1px #aaa' }}>
+                        <span className="text-muted lead">No skills added</span>
                      </div>
-                  </div>
-                  <div className="p-2 my-2 w-100 bg-light text-center" style={{ border: 'dashed 1px #aaa' }}>
-                     <span className="text-muted lead">No skills added</span>
-                  </div>
+                  )}
                   <h6 className="text-muted mt-3">Add skills</h6>
                   <Select options={skillOptions} onChange={(selected) => setSkills(selected)} isMulti />
                   <small>
@@ -233,11 +250,13 @@ function UserProfile() {
                <div className="border rounded shadow-sm p-3">
                   <div className="d-flex justify-content-between">
                      <h3>Education</h3>
-                     <div>
-                        <Button variant="light" size="sm">
-                           <i className="bx bx-pencil"></i>
-                        </Button>
-                     </div>
+                     {getDecoded()?.id === profile?.user?.id && (
+                        <div>
+                           <Button variant="light" size="sm" onClick={() => setEduModal(true)}>
+                              <i className="bx bx-pencil"></i>
+                           </Button>
+                        </div>
+                     )}
                   </div>
                   {/* <div>
                      <div>
@@ -250,21 +269,23 @@ function UserProfile() {
                         <em className="text-muted">Duration: </em> May - June 2017
                      </div>
                   </div> */}
-                  <div className="p-2 mt-2 w-100 bg-light text-center" style={{ border: 'dashed 1px #aaa' }}>
-                     <span className="text-muted lead">No educations added</span>
-                  </div>
-                  {[1, 2].map((item, index) => {
+                  {!profile?.education?.length && (
+                     <div className="p-2 mt-2 w-100 bg-light text-center" style={{ border: 'dashed 1px #aaa' }}>
+                        <span className="text-muted lead">No educations added</span>
+                     </div>
+                  )}
+                  {profile?.education?.map((edu, index) => {
                      return (
-                        <Row key={index} className="flex-wrap p-2 my-3">
+                        <Row key={edu.appliedJobs} className="flex-wrap p-2 my-3">
                            <Col xs={12}>
-                              <h5 className="lead">Degree</h5>
+                              <h5 className="lead">{edu?.degree ?? 'Degree not added'}</h5>
                            </Col>
                            <Col xs={5} className="m-2">
                               <div>
                                  <h6 className="my-0 text-muted small">School/University</h6>
                               </div>
                               <div>
-                                 <span className="small">{'unavailable'}</span>
+                                 <span className="small">{edu?.school ?? 'unavailable'}</span>
                               </div>
                            </Col>
                            <Col xs={5} className="m-2">
@@ -272,7 +293,7 @@ function UserProfile() {
                                  <h6 className="my-0 text-muted small">description</h6>
                               </div>
                               <div>
-                                 <small className="small">{'unavailable'}</small>
+                                 <small className="small">{edu?.description ?? 'unavailable'}</small>
                               </div>
                            </Col>
 
@@ -281,7 +302,7 @@ function UserProfile() {
                                  <h6 className="my-0 text-muted small">Duration</h6>
                               </div>
                               <div>
-                                 <span className="small">{'unavailable'}</span>
+                                 <span className="small">{edu?.from + ' - ' + edu?.to ?? 'unavailable'}</span>
                               </div>
                            </Col>
                         </Row>
@@ -291,6 +312,9 @@ function UserProfile() {
             </Col>
          </Row>
          <hr />
+
+         <AddEducationModal profile={profile} showEduModal={showEduModal} setEduModal={setEduModal} />
+         <AddExperienceModal profile={profile} showExpModal={showExpModal} setExpModal={setExpModal} />
       </UserLayouts>
    );
 }

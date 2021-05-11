@@ -1,6 +1,9 @@
-import React, { useState, useRef, useEffect } from 'react';
+import axios from 'axios';
+import React, { useState, useRef } from 'react';
 import { Button, Form, Modal } from 'react-bootstrap';
 import Select from 'react-select';
+import { toast } from 'react-toastify';
+import { getDecoded, getToken } from '../../../auth/auth.states';
 
 const empTypeOpts = [
    { value: 'full-time', label: 'full-time' },
@@ -9,7 +12,9 @@ const empTypeOpts = [
    { value: 'non-remote', label: 'non-remote' },
 ];
 
-function AddEducationModal(props) {
+function AddExperienceModal(props) {
+   const { profile } = props;
+
    const { showExpModal, setExpModal } = props;
 
    const [selectedEmpType, setEmpType] = useState(null);
@@ -23,6 +28,38 @@ function AddEducationModal(props) {
 
    const handleSubmit = (e) => {
       e.preventDefault();
+      setIsUpdating(true);
+      axios
+         .patch(
+            '/api/profiles/' + getDecoded().id,
+            {
+               ...profile,
+               experience: [
+                  ...profile.experience,
+                  {
+                     title: titleRef.current.value,
+                     emp_type: selectedEmpType?.map((item) => item.value).toString(),
+                     company: companyRef.current.value,
+                     location: locationRef.current.value,
+                     start: startDateRef.current.value,
+                     end: endDateRef.current.value,
+                  },
+               ],
+            },
+            { headers: { Authorization: getToken() } }
+         )
+         .then((res) => {
+            console.log(res);
+            setExpModal(false);
+         })
+         .catch((err) => {
+            console.log(err);
+            console.log(err.response);
+            toast.error('experience add failed ⚡');
+         })
+         .finally(() => {
+            setIsUpdating(false);
+         });
    };
 
    return (
@@ -35,7 +72,7 @@ function AddEducationModal(props) {
             onHide={() => setExpModal(false)}>
             <Form onSubmit={handleSubmit}>
                <Modal.Header closeButton>
-                  <Modal.Title>Create a job</Modal.Title>
+                  <Modal.Title>Add Experience</Modal.Title>
                </Modal.Header>
                <Modal.Body>
                   <Form.Group>
@@ -70,7 +107,7 @@ function AddEducationModal(props) {
                   </Form.Group>
 
                   <Form.Group>
-                     <Form.Label className="d-block">End Date</Form.Label>
+                     <Form.Label className="d-block">Start Date</Form.Label>
                      <Form.Control ref={startDateRef} type="text" placeholder="07 May, 2011"></Form.Control>
                   </Form.Group>
 
@@ -81,7 +118,7 @@ function AddEducationModal(props) {
                </Modal.Body>
                <Modal.Footer>
                   <Button type="submit" variant="success" block disabled={isUpdating}>
-                     {!isUpdating && <span>Update</span>}
+                     {!isUpdating && <span>Add experience</span>}
                      {!!isUpdating && <span>processing...</span>}
                   </Button>
                </Modal.Footer>
@@ -91,4 +128,4 @@ function AddEducationModal(props) {
    );
 }
 
-export default AddEducationModal;
+export default AddExperienceModal;

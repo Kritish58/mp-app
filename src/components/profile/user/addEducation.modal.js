@@ -1,7 +1,12 @@
-import React, { useState, useRef, useEffect } from 'react';
+import axios from 'axios';
+import React, { useState, useRef } from 'react';
 import { Button, Form, Modal } from 'react-bootstrap';
+import { toast } from 'react-toastify';
+import { getDecoded, getToken } from '../../../auth/auth.states';
 
 function AddEducationModal(props) {
+   const { profile } = props;
+
    const { showEduModal, setEduModal } = props;
 
    const [isUpdating, setIsUpdating] = useState(false);
@@ -14,6 +19,37 @@ function AddEducationModal(props) {
 
    const handleSubmit = (e) => {
       e.preventDefault();
+      setIsUpdating(true);
+      axios
+         .patch(
+            '/api/profiles/' + getDecoded().id,
+            {
+               ...profile,
+               education: [
+                  ...profile.education,
+                  {
+                     school: schoolRef.current.value,
+                     degree: degreeRef.current.value,
+                     from: startDateRef.current.value,
+                     to: endDateRef.current.value,
+                     description: descriptionRef.current.value,
+                  },
+               ],
+            },
+            { headers: { Authorization: getToken() } }
+         )
+         .then((res) => {
+            console.log(res);
+            setEduModal(false);
+         })
+         .catch((err) => {
+            console.log(err);
+            console.log(err.response);
+            toast.error('experience add failed ⚡');
+         })
+         .finally(() => {
+            setIsUpdating(false);
+         });
    };
 
    return (
@@ -26,7 +62,7 @@ function AddEducationModal(props) {
             onHide={() => setEduModal(false)}>
             <Form onSubmit={handleSubmit}>
                <Modal.Header closeButton>
-                  <Modal.Title>Create a job</Modal.Title>
+                  <Modal.Title>Add Education</Modal.Title>
                </Modal.Header>
                <Modal.Body>
                   <Form.Group>
@@ -63,7 +99,7 @@ function AddEducationModal(props) {
                </Modal.Body>
                <Modal.Footer>
                   <Button type="submit" variant="success" block disabled={isUpdating}>
-                     {!isUpdating && <span>Update</span>}
+                     {!isUpdating && <span>Add education</span>}
                      {!!isUpdating && <span>processing...</span>}
                   </Button>
                </Modal.Footer>
